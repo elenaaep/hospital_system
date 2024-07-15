@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface AsistentRepository extends JpaRepository<Asistent, Long> {
 
-    Optional<Asistent> findByCnp(Long aLong);
+    Optional<Asistent> findByCnp(String cnp);
 }
