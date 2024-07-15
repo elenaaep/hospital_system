@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 @Repository
-public interface InternariRepository extends JpaRepository<Internari, Long> {
+public interface InternariRepository extends JpaRepository<Internari, Integer> {
 
-    Optional<Internari> findByIdPacient(int aLong);
+    Optional<Internari> findByIdPacient(int idPacient);
 }

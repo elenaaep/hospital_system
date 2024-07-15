@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface GardaRepository extends JpaRepository<Garda, Long> {
+public interface GardaRepository extends JpaRepository<Garda, Integer> {
 
     Optional<Garda> findByIdAsistentAndIdDoc(int idAsistent, int idDoc);
 }
