@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface GardaRepository extends JpaRepository<Garda, Long> {
 
-    Optional<Garda> findByIdAsistentAndIdDoc(int aLong, int bLong);
+    Optional<Garda> findByIdAsistentAndIdDoc(int idAsistent, int idDoc);
 }
