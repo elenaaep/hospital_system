@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +16,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
-    private String id_user;
+    private String idUser;
 
     @Column(name = "uname", nullable = false)
     private String uname;
@@ -28,11 +29,11 @@ public class User {
 
     // Getters and Setters
     public String getIdUser() {
-        return id_user;
+        return idUser;
     }
 
     public void setIdUser(String idUser) {
-        this.id_user = idUser;
+        this.idUser = idUser;
     }
 
     public String getUname() {
