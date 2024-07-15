@@ -13,7 +13,6 @@ import java.sql.Time;
 @Entity
 public class Tratamente {
 
-    // Getters and Setters
     @Id
     @Column(name = "id_tratament")
     private int idTratament;
@@ -39,6 +38,7 @@ public class Tratamente {
     @Column(name = "observatii", nullable = false)
     private String observatii;
 
+    // Getters and Setters
     public void setIdTratament(int idTratament) {
         this.idTratament = idTratament;
     }
