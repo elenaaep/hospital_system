@@ -11,6 +11,7 @@ public class PacientiDto {
     private int idPacient;
     private String nume;
     private String prenume;
+    private String cnp;
     private Date dataNasterii;
     private String gen;
     private int varsta;
