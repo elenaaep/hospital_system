@@ -21,8 +21,8 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<DoctorDto> findAllDoctor() {
-        List<Doctor> doctors = doctorRepository.findAll();
-        return doctors.stream()
+        List<Doctor> doctor = doctorRepository.findAll();
+        return doctor.stream()
                 .map(doctor1 -> mapToDoctorDto(doctor1))
                 .collect(Collectors.toList());
     }
