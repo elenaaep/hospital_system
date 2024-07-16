@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Doctors</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css"> <!-- Optional: Include your CSS file here -->
+</head>
+<body>
+<h1>List of Doctors</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>CNP</th>
+        <th>Date of Birth</th>
+        <th>Gender</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Specialization</th>
+        <th>Floor</th>
+        <th>Competencies</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="doctor : ${doctors}">
+        <td th:text="${doctor.idDoc}"></td>
+        <td th:text="${doctor.titlu}"></td>
+        <td th:text="${doctor.nume}"></td>
+        <td th:text="${doctor.prenume}"></td>
+        <td th:text="${doctor.cnp}"></td>
+        <td th:text="${doctor.dataNasterii}"></td>
+        <td th:text="${doctor.gen}"></td>
+        <td th:text="${doctor.tel}"></td>
+        <td th:text="${doctor.email}"></td>
+        <td th:text="${doctor.departament}"></td>
+        <td th:text="${doctor.specializare}"></td>
+        <td th:text="${doctor.etaj}"></td>
+        <td th:text="${doctor.competente}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
