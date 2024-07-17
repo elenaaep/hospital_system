@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 @Builder
 @AllArgsConstructor
@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @Entity
 public class Analize_Medicale {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_analize")
     private int idAnalize;
 
@@ -25,21 +24,21 @@ public class Analize_Medicale {
     @Column(name = "id_doc", nullable = false)
     private int idDoc;
 
-    @Column(name = "tip_analiza", nullable = false, length = 255)
+    @Column(name = "tip_analiza", nullable = false)
     private String tipAnaliza;
 
     @Column(name = "data_efectuare", nullable = false)
-    private LocalDate dataEfectuare;
+    private Date dataEfectuare;
 
-    @Column(name = "rezultate", nullable = false, length = 1024)
+    @Column(name = "rezultate", nullable = false)
     private String rezultate;
 
-    @Column(name = "valori_normale", nullable = false, length = 1024)
+    @Column(name = "valori_normale", nullable = false)
     private String valoriNormale;
 
-    @Column(name = "executant_analize", nullable = false, length = 255)
+    @Column(name = "executant_analize", nullable = false)
     private String executantAnalize;
 
-    @Column(name = "observatii", nullable = true, length = 1024)
+    @Column(name = "observatii", nullable = false)
     private String observatii;
 }
