@@ -19,7 +19,7 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
-    @GetMapping("http://localhost:8080/doctor")
+    @GetMapping("/doctor")
     public String doctor(Model model) {
         List<DoctorDto> doctor = doctorService.findAllDoctor();
         model.addAttribute("doctor", doctor);
