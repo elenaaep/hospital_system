@@ -1,11 +1,11 @@
 package com.hospital.hospital_system.repository;
 
-import com.hospital.hospital_system.models.Istoric_Pacienti;
+import com.hospital.hospital_system.models.IstoricPacienti;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface IstoricPacientiRepository extends JpaRepository<Istoric_Pacienti, Integer> {
+public interface IstoricPacientiRepository extends JpaRepository<IstoricPacienti, Integer> {
 
-    Optional<Istoric_Pacienti> findByIdPacient(int idPacient);
+    Optional<IstoricPacienti> findByIdPacient(int idPacient);
 }

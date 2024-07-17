@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-public class Istoric_Pacienti {
+public class IstoricPacienti {
 
     @Id
     @Column(name = "id_ist")
