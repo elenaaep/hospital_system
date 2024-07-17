@@ -1,7 +1,7 @@
 package com.hospital.hospital_system.service.impl;
 
 import com.hospital.hospital_system.dto.IstoricPacientiDto;
-import com.hospital.hospital_system.models.IstoricPacienti;
+import com.hospital.hospital_system.models.Istoric_Pacienti;
 import com.hospital.hospital_system.repository.IstoricPacientiRepository;
 import com.hospital.hospital_system.service.IstoricPacientiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +21,13 @@ public class IstoricPacientiserviceImpl implements IstoricPacientiService {
 
     @Override
     public List<IstoricPacientiDto> findAllIstoricPacienti() {
-        List<IstoricPacienti> istoricPacienti=istoricPacientiRepository.findAll();
+        List<Istoric_Pacienti> istoricPacienti=istoricPacientiRepository.findAll();
         return istoricPacienti.stream()
                 .map(istoricPacienti1 -> mapToIstoricPacienti(istoricPacienti1))
                 .collect(Collectors.toList());
     }
 
-    private IstoricPacientiDto mapToIstoricPacienti(IstoricPacienti istoricPacienti1)
+    private IstoricPacientiDto mapToIstoricPacienti(Istoric_Pacienti istoricPacienti1)
     {
        IstoricPacientiDto istoricPacientiDto=IstoricPacientiDto.builder()
                .idIst(istoricPacienti1.getIdIst())

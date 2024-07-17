@@ -6,15 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-public class AnalizeMedicale {
+public class Analize_Medicale {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_analize")
     private int idAnalize;
 
@@ -24,21 +25,21 @@ public class AnalizeMedicale {
     @Column(name = "id_doc", nullable = false)
     private int idDoc;
 
-    @Column(name = "tip_analiza", nullable = false)
+    @Column(name = "tip_analiza", nullable = false, length = 255)
     private String tipAnaliza;
 
     @Column(name = "data_efectuare", nullable = false)
-    private Date dataEfectuare;
+    private LocalDate dataEfectuare;
 
-    @Column(name = "rezultate", nullable = false)
+    @Column(name = "rezultate", nullable = false, length = 1024)
     private String rezultate;
 
-    @Column(name = "valori_normale", nullable = false)
+    @Column(name = "valori_normale", nullable = false, length = 1024)
     private String valoriNormale;
 
-    @Column(name = "executant_analize", nullable = false)
+    @Column(name = "executant_analize", nullable = false, length = 255)
     private String executantAnalize;
 
-    @Column(name = "observatii", nullable = false)
+    @Column(name = "observatii", nullable = true, length = 1024)
     private String observatii;
 }

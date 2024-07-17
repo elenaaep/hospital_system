@@ -1,7 +1,7 @@
 package com.hospital.hospital_system.service.impl;
 
 import com.hospital.hospital_system.dto.AnalizeMedicaleDto;
-import com.hospital.hospital_system.models.AnalizeMedicale;
+import com.hospital.hospital_system.models.Analize_Medicale;
 import com.hospital.hospital_system.repository.AnalizeMedicaleRepository;
 import com.hospital.hospital_system.service.AnalizeMedicaleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +22,14 @@ public class AnalizeMedicaleServiceImpl implements AnalizeMedicaleService {
 
     @Override
     public List<AnalizeMedicaleDto> findAllAnalizeMedicale() {
-        List<AnalizeMedicale> analizeMedicale = analizeMedicaleRepository.findAll();
+        List<Analize_Medicale> analizeMedicale = analizeMedicaleRepository.findAll();
         return analizeMedicale.stream()
                 .map(analizeMedicale1 -> mapToAnalizeMedicaleDto(analizeMedicale1))
                 .collect(Collectors.toList());
     }
 
 
-    private AnalizeMedicaleDto mapToAnalizeMedicaleDto(AnalizeMedicale analizeMedicale1){
+    private AnalizeMedicaleDto mapToAnalizeMedicaleDto(Analize_Medicale analizeMedicale1){
         AnalizeMedicaleDto analizeMedicaleDto=AnalizeMedicaleDto.builder()
                 .idAnalize(analizeMedicale1.getIdAnalize())
                 .idPacient(analizeMedicale1.getIdPacient())
