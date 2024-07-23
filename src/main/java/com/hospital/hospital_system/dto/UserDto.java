@@ -1,6 +1,7 @@
 package com.hospital.hospital_system.dto;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,7 +10,9 @@ import lombok.Data;
 public class UserDto {
 
     private String id_user;
+    @NotEmpty
     private String uname;
+    @NotEmpty
     private String parola;
     private String utip;
 }

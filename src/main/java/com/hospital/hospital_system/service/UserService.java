@@ -7,5 +7,7 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    List<UserDto> findAllUser();
+  //  List<UserDto> findAllUser();
+
+    void saveUser(UserDto userDto);
 }

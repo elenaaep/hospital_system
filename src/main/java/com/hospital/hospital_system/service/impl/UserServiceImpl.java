@@ -22,20 +22,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAllUser() {
-        List<User> user=userRepository.findAll();
-        return user.stream()
-                .map(user1 -> mapToUser(user1))
-                .collect(Collectors.toList());
+    public void saveUser(UserDto userDto) {
+        User user = new User();
+        user.setUname(userDto.getUname());
+        user.setParola(userDto.getParola());
+        user.setUtip(userDto.getUtip());
+
     }
 
-    private UserDto mapToUser(User user1) {
-        UserDto userDto=UserDto.builder()
-                .id_user(user1.getIdUser())
-                .uname(user1.getIdUser())
-                .parola(user1.getIdUser())
-                .utip(user1.getIdUser())
-                .build();
-        return userDto;
-    }
+//    @Override
+//    public List<UserDto> findAllUser() {
+//        List<User> user=userRepository.findAll();
+//        return user.stream()
+//                .map(user1 -> mapToUser(user1))
+//                .collect(Collectors.toList());
+//    }
+
+//    private UserDto mapToUser(User user1) {
+//        UserDto userDto=UserDto.builder()
+//                .id_user(user1.getIdUser())
+//                .uname(user1.getIdUser())
+//                .parola(user1.getIdUser())
+//                .utip(user1.getIdUser())
+//                .build();
+//        return userDto;
+//    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.hospital.hospital_system.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,8 +45,8 @@ public class User {
         this.uname = uname;
     }
 
-    public String getParola() {
-        return parola;
+    public String getParola(@NotEmpty String parola) {
+        return this.parola;
     }
 
     public void setParola(String parola) {
