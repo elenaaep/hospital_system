@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -28,10 +27,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getUtip());
         return new org.springframework.security.core.userdetails.User(
                 user.getUname(),
-                user.getParola(),
+                user.getParola(), // BCrypt hashed password from DB
                 Collections.singletonList(authority)
         );
     }
-
-
 }
