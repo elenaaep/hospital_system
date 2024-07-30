@@ -1,5 +1,6 @@
 package com.hospital.hospital_system.controller;
 
+import com.hospital.hospital_system.dto.LoginDto;
 import com.hospital.hospital_system.dto.RegisterDto;
 import com.hospital.hospital_system.models.User;
 import com.hospital.hospital_system.repository.UserRepository;
@@ -7,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,4 +44,12 @@ public class AuthController {
         return new ResponseEntity<>("User registred succes!", HttpStatus.OK);
     }
 
+    @PostMapping("login")
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+        Authentication authentication=authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getUsername(),
+                        loginDto.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new ResponseEntity<>("Authentication Successful!", HttpStatus.OK);
+    }
 }
