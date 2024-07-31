@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getUtip());
         return new org.springframework.security.core.userdetails.User(
                 user.getUname(),
-                user.getParola(), // BCrypt hashed password from DB
+                user.getParola(),
                 Collections.singletonList(authority)
         );
     }
