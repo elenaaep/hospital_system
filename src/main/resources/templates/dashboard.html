@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>IMACARE Medical Center Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="path/to/your/css/style.css">
+    <!-- Include any required CSS or JS files here -->
+</head>
+<body>
+<div class="sidebar">
+    <div class="logo">
+        <img src="path/to/logo.png" alt="IMACARE Logo">
+    </div>
+    <ul>
+        <li><a href="#" class="active">Dashboard</a></li>
+        <li><a href="#">Doctors</a></li>
+        <li>
+            <a href="#">Patient</a>
+            <ul>
+                <li><a href="#">Submenu 1</a></li>
+                <li><a href="#">Submenu 2</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Department</a></li>
+        <li><a href="#">Virtual Care</a></li>
+        <li><a href="#">Duty Roaster</a></li>
+        <li><a href="#">Retired Staff</a></li>
+        <li><a href="#">Account</a></li>
+    </ul>
+</div>
+<div class="main-content">
+    <div class="header">
+        <div class="search-bar">
+            <input type="text" placeholder="Search" />
+        </div>
+        <div class="profile">
+            <span>Emem Johnson</span>
+            <img src="path/to/profile_picture.jpg" alt="Profile Picture">
+        </div>
+    </div>
+    <div class="content">
+        <h1>Hospitality Status</h1>
+        <div class="stats">
+            <div class="stat">
+                <h2>Total Doctors</h2>
+                <p th:text="${totalDoctors}">200</p>
+            </div>
+            <div class="stat">
+                <h2>Total Nurses</h2>
+                <p th:text="${totalNurses}">84</p>
+            </div>
+            <div class="stat">
+                <h2>Total Appointments</h2>
+                <p th:text="${totalAppointments}">400</p>
+            </div>
+            <div class="chart">
+                <canvas id="appointmentsChart"></canvas>
+            </div>
+            <div class="stat">
+                <h2>Total Patients</h2>
+                <p th:text="${totalPatients}">117</p>
+            </div>
+            <div class="stat">
+                <h2>Patients per Doctor</h2>
+                <p th:text="${patientsPerDoctor}">16</p>
+            </div>
+            <div class="stat">
+                <h2>Active Users Ratio</h2>
+                <div id="activeUsersRatioChart"></div>
+            </div>
+        </div>
+        <h1>Hospital Room Booking Status</h1>
+        <div class="room-status">
+            <!-- Repeat this div for each room -->
+            <div class="room">
+                <img src="path/to/room_icon.png" alt="Room Icon">
+                <p th:text="${roomStatus}">Available/Booked</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Chart.js or other chart libraries -->
+<script src="path/to/chart.js"></script>
+<script>
+    // JavaScript to render charts
+    const ctx = document.getElementById('appointmentsChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            // data for the chart
+        },
+        options: {
+            // chart options
+        }
+    });
+</script>
+</body>
+</html>
