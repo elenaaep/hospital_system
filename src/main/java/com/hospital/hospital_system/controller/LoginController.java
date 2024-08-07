@@ -29,7 +29,7 @@ public class LoginController {
         Optional<User> optionalUser = userRepository.findByUname(uname);
         if (optionalUser.isPresent() && optionalUser.get().getParola().equals(password)) {
             model.addAttribute("message", "Login successful!");
-            return "doctor"; //  pagina dupa autentificare
+            return "redirect:/doctor"; //  pagina dupa autentificare
         } else {
             model.addAttribute("error", true);
             model.addAttribute("message", "Invalid username or password");
