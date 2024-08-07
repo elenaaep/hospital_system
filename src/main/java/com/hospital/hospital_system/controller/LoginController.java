@@ -17,6 +17,7 @@ public class LoginController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
@@ -26,20 +27,28 @@ public class LoginController {
         return "login"; // numele fișierului HTML Thymeleaf
     }
 
+
     @PostMapping("/login")
     public String login(@RequestParam String uname, @RequestParam String password, Model model) {
         Optional<User> optionalUser = userRepository.findByUname(uname);
-        if (optionalUser.isPresent() && passwordEncoder.matches(password, optionalUser.get().getParola())) {
-            model.addAttribute("message", "Login successful!");
-            System.out.println("User found: " + optionalUser.get());
-            System.out.println("Password check: " + passwordEncoder.matches(password, optionalUser.get().getParola()));
 
-            return "redirect:/doctor"; // Redirect către pagina dupa autentificare
-        } else {
-            model.addAttribute("error", true);
-            model.addAttribute("message", "Invalid username or password");
-            return "login"; // Ramai pe pagina de login cu mesaj de eroare
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            boolean passwordMatch = passwordEncoder.matches(password, user.getParola());
+
+            System.out.println("User found: " + user);
+            System.out.println("Password check: " + passwordMatch);
+
+            if (passwordMatch) {
+                model.addAttribute("message", "Login successful!");
+                return "redirect:/doctor";
+            }
         }
-    }
 
+        model.addAttribute("error", true);
+        model.addAttribute("message", "Invalid username or password");
+        return "login";
+    }
 }
+
+
