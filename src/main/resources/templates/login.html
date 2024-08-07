@@ -46,19 +46,35 @@
         }
         .login-container h2 {
             margin-top: 0;
+            font-size: 2.5em; /* Mărimea fontului pentru titlu */
+            font-family: 'Times New Roman', sans-serif; /* Font personalizat pentru titlu */
+            color: #ffffff; /* Culoare albă pentru text */
+            text-align: center; /* Aliniere centrala */
         }
         .login-container form {
             width: 100%;
             max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centering the form elements */
         }
         .login-container div {
             margin-bottom: 15px;
+            width: 100%;
+            text-align: center; /* Center text alignment for labels and inputs */
+        }
+        .login-container label {
+            color: #ffffff; /* Alb pentru textul etichetei */
+            display: block;
+            margin-bottom: 5px;
         }
         .login-container input {
             width: 100%;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ddd;
+            color: #333; /* Text color inside input fields */
+            background-color: #ffffff; /* Background color of input fields */
         }
         .login-container button {
             padding: 10px 15px;
@@ -68,19 +84,20 @@
             color: #fff;
             font-size: 16px;
             cursor: pointer;
-
+            margin-top: 10px; /* Margin to space out from the other elements */
         }
         .login-container button:hover {
-            background-color: #dab30a;
+            background-color: #b89d02; /* Darker shade on hover */
         }
         .login-container p {
             margin: 0;
             padding: 10px;
             border-radius: 5px;
             width: 100%;
+            text-align: center; /* Center text alignment for error and message */
         }
         .error {
-           // background-color: #f8d7da;
+            //background-color: #f8d7da;
             color: #721c24;
         }
         .message {
@@ -104,11 +121,11 @@
 
         <form th:action="@{/login}" method="post">
             <div>
-                <label>Username:</label>
+                <label>Username</label>
                 <input type="text" name="uname"/>
             </div>
             <div>
-                <label>Password:</label>
+                <label>Password</label>
                 <input type="password" name="password"/>
             </div>
             <div>

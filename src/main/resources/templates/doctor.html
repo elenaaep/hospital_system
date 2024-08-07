@@ -2,9 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Doctors</title>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css"> <!-- Optional: Include your CSS file here -->
     <style>
-
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -28,7 +26,7 @@
             width: 80px; /* Adjust the width as needed */
             margin-bottom: 80px; /* Add some space below the image */
         }
-        .navbar a, .dropdown-btn, .logout-btn {
+        .navbar a, .dropdown-btn, .schedule, .logout-btn {
             padding: 10px 15px;
             text-decoration: none;
             font-size: 18px;
@@ -41,9 +39,9 @@
             cursor: pointer;
             outline: none;
         }
-        .navbar a:hover, .dropdown-btn:hover, .logout-btn:hover {
+        .navbar a:hover, .dropdown-btn:hover, .schedule:hover .logout-btn:hover {
             background-color: #ddd;
-            color: 	#568203;
+            color: #568203;
         }
         .navbar a.active {
             background-color: #dab30a;
@@ -71,9 +69,10 @@
 
 <div class="navbar">
     <div>
-        <img src="D:/LICENTA/hospital_system/src/main/resources/static/hospital.png" alt="Hospital Logo"> <!-- Replace with the path to your image -->
+        <img th:src="@{/hospital.png}"/>
         <a class="active" href="#home">Acasă</a>
-        <a href="#schedule">Programări</a>
+        <button class="schedule">Programari</button>
+<!--        <a href="#schedule">Programări</a>-->
         <button class="dropdown-btn">Pacienți</button>
         <div class="dropdown-container">
             <a href="#view-pacients">Vizualizare Pacienți</a>
@@ -88,47 +87,10 @@
 </div>
 
 <div class="main-content">
-    <!--    <h1>Lista de Doctori</h1>-->
-    <!--    <table>-->
-    <!--        <thead>-->
-    <!--        <tr>-->
-    <!--            <th>ID</th>-->
-    <!--            <th>Titlu</th>-->
-    <!--            <th>Nume</th>-->
-    <!--            <th>Prenume</th>-->
-    <!--            <th>CNP</th>-->
-    <!--            <th>Data nasterii</th>-->
-    <!--            <th>Gen</th>-->
-    <!--            <th>Telefon</th>-->
-    <!--            <th>Email</th>-->
-    <!--            <th>Departament</th>-->
-    <!--            <th>Specializare</th>-->
-    <!--            <th>Etaj</th>-->
-    <!--            <th>Competente</th>-->
-    <!--        </tr>-->
-    <!--        </thead>-->
-    <!--        <tbody>-->
-    <!--        <tr th:each="doctor : ${doctors}">-->
-    <!--            <td th:text="${doctor.idDoc}"></td>-->
-    <!--            <td th:text="${doctor.titlu}"></td>-->
-    <!--            <td th:text="${doctor.nume}"></td>-->
-    <!--            <td th:text="${doctor.prenume}"></td>-->
-    <!--            <td th:text="${doctor.cnp}"></td>-->
-    <!--            <td th:text="${doctor.dataNasterii}"></td>-->
-    <!--            <td th:text="${doctor.gen}"></td>-->
-    <!--            <td th:text="${doctor.tel}"></td>-->
-    <!--            <td th:text="${doctor.email}"></td>-->
-    <!--            <td th:text="${doctor.departament}"></td>-->
-    <!--            <td th:text="${doctor.specializare}"></td>-->
-    <!--            <td th:text="${doctor.etaj}"></td>-->
-    <!--            <td th:text="${doctor.competente}"></td>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-    <!--    </table>-->
+    <!-- Content goes here -->
 </div>
 
 <script>
-    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content */
     var dropdown = document.getElementsByClassName("dropdown-btn");
     var i;
 
