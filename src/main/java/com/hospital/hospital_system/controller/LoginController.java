@@ -28,27 +28,32 @@ public class LoginController {
     }
 
 
-    @PostMapping("/login")
-    public String login(@RequestParam String uname, @RequestParam String password, Model model) {
-        Optional<User> optionalUser = userRepository.findByUname(uname);
+//    @PostMapping("/login")
+//    public String login(@RequestParam String uname, @RequestParam String password, Model model) {
+//        System.out.println("Login attempt with username: " + uname); // Add debug output
+//        Optional<User> optionalUser = userRepository.findByUname(uname);
+//
+//        if (optionalUser.isPresent()) {
+//            User user = optionalUser.get();
+//
+//            boolean passwordMatch = passwordEncoder.matches(password, user.getParola());
+//
+//            System.out.println("User found: " + user);
+//            System.out.println("Password check: " + passwordMatch);
+//
+//            if (passwordMatch) {
+//                model.addAttribute("message", "Login successful!");
+//                return "redirect:/doctor";
+//            }
+//        }
+//
+//        model.addAttribute("error", true);
+//        model.addAttribute("message", "Invalid username or password");
+//        return "login";
+//    }
 
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            boolean passwordMatch = passwordEncoder.matches(password, user.getParola());
 
-            System.out.println("User found: " + user);
-            System.out.println("Password check: " + passwordMatch);
 
-            if (passwordMatch) {
-                model.addAttribute("message", "Login successful!");
-                return "redirect:/doctor";
-            }
-        }
-
-        model.addAttribute("error", true);
-        model.addAttribute("message", "Invalid username or password");
-        return "login";
-    }
 }
 
 

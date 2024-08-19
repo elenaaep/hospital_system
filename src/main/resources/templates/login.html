@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
-
     <style>
         body {
             margin: 0;
@@ -25,7 +24,6 @@
         }
         .image-container {
             flex: 1;
-            /*background: url('D:/LICENTA/hospital_system/src/main/resources/static/login_hospital.jpg') no-repeat center center;*/
             background: url('/images/login_hospital.jpg') no-repeat center center;
             background-size: cover;
             border-top-left-radius: 30px;
@@ -52,6 +50,24 @@
             font-family: 'Times New Roman', sans-serif; /* Font personalizat pentru titlu */
             color: #ffffff; /* Culoare albă pentru text */
             text-align: center; /* Aliniere centrala */
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px; /* Spațiu între butoane și formular */
+        }
+        .button-group button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #dab30a;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px; /* Spațiu între butoane */
+        }
+        .button-group button:hover {
+            background-color: #b89d02; /* Întunecare la hover */
         }
         .login-container form {
             width: 100%;
@@ -99,11 +115,9 @@
             text-align: center; /* Center text alignment for error and message */
         }
         .error {
-            //background-color: #f8d7da;
             color: #721c24;
         }
         .message {
-           // background-color: #d4edda;
             color: #155724;
         }
     </style>
@@ -114,11 +128,16 @@
     <div class="login-container">
         <h2>Login</h2>
 
-        <div th:if="${error}" class="error">
-            <p th:text="${message}"></p>
+        <div class="button-group">
+            <button type="button" href='/login.html'>Login</button>
+            <button type="button" href='/register.html'>Register</button>
         </div>
-        <div th:if="${message}" class="message">
-            <p th:text="${message}"></p>
+
+        <div th:if="${param.error}">
+            <p style="color:red;">Invalid username or password</p>
+        </div>
+        <div th:if="${param.logout}">
+            <p style="color:green;">You have been logged out successfully.</p>
         </div>
 
         <form th:action="@{/login}" method="post">
