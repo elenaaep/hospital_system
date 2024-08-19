@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacienți</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-bar input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .search-bar select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .highlight {
+            background-color: #e0f7fa;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Caută pacienți...">
+        <select id="filterGroup">
+            <option value="">Filtrează după grupă de sânge</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="AB">AB</option>
+            <option value="O">O</option>
+        </select>
+        <select id="filterRh">
+            <option value="">Filtrează după Rh</option>
+            <option value="Pozitiv">Pozitiv</option>
+            <option value="Negativ">Negativ</option>
+        </select>
+    </div>
+    <table id="patientsTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nume</th>
+            <th>Prenume</th>
+            <th>CNP</th>
+            <th>Data Nașterii</th>
+            <th>Gen</th>
+            <th v>vârsta</th>
+            <th>Adresă</th>
+            <th>Telefon</th>
+            <th>Email</th>
+            <th>Grupa de sânge</th>
+            <th>Rh</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Datele pacienților vor fi populate aici de PHP -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('input', filterTable);
+    document.getElementById('filterGroup').addEventListener('change', filterTable);
+    document.getElementById('filterRh').addEventListener('change', filterTable);
+
+    function filterTable() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const filterGroup = document.getElementById('filterGroup').value;
+        const filterRh = document.getElementById('filterRh').value;
+        const table = document.getElementById('patientsTable');
+        const rows = table.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            const name = cells[1].textContent.toLowerCase() + ' ' + cells[2].textContent.toLowerCase();
+            const group = cells[10].textContent;
+            const rh = cells[11].textContent;
+
+            const matchesSearch = name.includes(searchInput);
+            const matchesGroup = filterGroup === '' || group === filterGroup;
+            const matchesRh = filterRh === '' || rh === filterRh;
+
+            if (matchesSearch && matchesGroup && matchesRh) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+</script>
+</body>
+</html>
