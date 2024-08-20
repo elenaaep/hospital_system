@@ -52,9 +52,20 @@ public class AuthController {
     @PostMapping("login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    loginDto.getUsername(), loginDto.getPassword());
+
+            Authentication authentication = authenticationManager.authenticate(authToken);
+
+            User user = userRepository.findByUname(loginDto.getUsername())
+                    .orElseThrow(() -> new BadCredentialsException("Invalid username or password!"));
+
+            boolean isPasswordMatching = passwordEncoder.matches(loginDto.getPassword(), user.getParola());
+
+            System.out.println("Parola introdusă este corectă: " + isPasswordMatching);
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
             return new ResponseEntity<>("Authentication Successful!", HttpStatus.OK);
         } catch (BadCredentialsException e) {
             return new ResponseEntity<>("Invalid username or password!", HttpStatus.UNAUTHORIZED);
@@ -62,4 +73,5 @@ public class AuthController {
             return new ResponseEntity<>("Authentication failed!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

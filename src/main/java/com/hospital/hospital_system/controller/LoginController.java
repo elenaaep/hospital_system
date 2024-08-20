@@ -53,7 +53,33 @@ public class LoginController {
 //    }
 
 
+    @PostMapping("/login")
+    public String handleLogin(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            Model model) {
 
+        // Printăm username-ul și parola primite din form
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password);
+
+        // Verificăm dacă username-ul există în baza de date
+        Optional<User> optionalUser = userRepository.findByUname(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            // Verificăm dacă parola introdusă corespunde cu cea encodată din baza de date
+            if (passwordEncoder.matches(password, user.getParola())) {
+                System.out.println("Parola introdusă este corectă!");
+            } else {
+                System.out.println("Parola introdusă este greșită!");
+            }
+        } else {
+            System.out.println("User-ul nu există!");
+        }
+
+        return "redirect:/login"; // redirecționăm din nou către pagina de login
+    }
 }
 
 
