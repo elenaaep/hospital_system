@@ -9,10 +9,45 @@ import lombok.Data;
 @Builder
 public class UserDto {
 
-    private String id_user;
+    private String idUser;
     @NotEmpty
-    private String uname;
+    private String username;
     @NotEmpty
-    private String parola;
+    private String password;
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+    }
+
+    public @NotEmpty String getUsername() {
+        return username;
+    }
+
+    public void setUsername(@NotEmpty String username) {
+        this.username = username;
+    }
+
+    public @NotEmpty String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NotEmpty String password) {
+        this.password = password;
+    }
+
+    public String getUtip() {
+        return utip;
+    }
+
+    public void setUtip(String utip) {
+        this.utip = utip;
+    }
+
     private String utip;
+
 }
+

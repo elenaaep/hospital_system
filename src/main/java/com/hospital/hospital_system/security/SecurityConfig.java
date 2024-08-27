@@ -24,12 +24,14 @@ public class SecurityConfig {
     public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
     }
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()) // Locații comune (css, js, images)
-                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**"); // Resursele definite
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**");
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -37,9 +39,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**", "/login", "/register", "/static/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("Admin")
-                        .requestMatchers("/doctor/**").hasRole("Doctor")
-                        .requestMatchers("/asistent/**").hasRole("Asistent")
-                        .requestMatchers("/pacient/**").hasRole("Pacient")
+                        .requestMatchers("/doctor/**").hasAuthority("Doctor")
+                        .requestMatchers("/asistent/**").hasAuthority("Asistent")
+                        .requestMatchers("/pacient/**").hasAuthority("Pacient")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

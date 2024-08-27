@@ -18,8 +18,8 @@ public class User {
     @Column(name = "id_user")
     private String idUser;
 
-    @Column(name = "uname", nullable = false)
-    private String uname;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "parola", nullable = false)
     private String parola;
@@ -36,16 +36,16 @@ public class User {
         this.idUser = idUser;
     }
 
-    public String getUname() {
-        return uname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUname(String uname) {
-        this.uname = uname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getParola(@NotEmpty String parola) {
-        return this.parola;
+    public String getParola() {
+        return parola;
     }
 
     public void setParola(String parola) {
@@ -60,3 +60,4 @@ public class User {
         this.utip = utip;
     }
 }
+
