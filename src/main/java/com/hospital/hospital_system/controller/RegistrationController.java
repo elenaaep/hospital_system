@@ -35,21 +35,21 @@ public class RegistrationController {
             Model model) {
 
         // Verificăm dacă username-ul este deja folosit
-        if (userRepository.findByUname(username).isPresent()) {
+        if (userRepository.findByUsername(username).isPresent()) {
             model.addAttribute("error", true);
             model.addAttribute("message", "Username already exists");
             return "register";
         }
 
-
         String encodedPassword = passwordEncoder.encode(password);
 
+        System.out.println("Original Password: " + password);
+        System.out.println("Encoded Password: " + encodedPassword);
 
         User newUser = new User();
-        newUser.setUname(username);
+        newUser.setUsername(username);
         newUser.setParola(encodedPassword);
         newUser.setUtip(role);
-
 
         userRepository.save(newUser);
 
