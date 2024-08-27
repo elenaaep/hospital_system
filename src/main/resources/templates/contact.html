@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ro">
 <head>
-    <title>Adauga Programare</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Gestionare Garda</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
+            background-color: #f4f4f4;
         }
+
         .navbar {
             width: 200px;
             height: 100vh;
@@ -22,10 +28,12 @@
             justify-content: flex-start;
             align-items: normal;
         }
+
         .navbar img {
-            width: 80px; /* Adjust the width as needed */
-            margin-bottom: 80px; /* Add some space below the image */
+            width: 80px;
+            margin-bottom: 80px;
         }
+
         .navbar a, .dropdown-btn, .schedule, .logout-btn {
             padding: 10px 15px;
             text-decoration: none;
@@ -39,81 +47,121 @@
             cursor: pointer;
             outline: none;
         }
+
         .navbar a:hover, .dropdown-btn:hover, .schedule:hover, .logout-btn:hover {
             background-color: #ddd;
             color: #568203;
         }
+
         .navbar a.active {
             background-color: #dab30a;
             color: white;
         }
+
+        .navbar button {
+            padding: 10px 15px;
+            font-size: 18px;
+            color: white;
+            background-color: #00561B;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .navbar button:hover {
+            background-color: #ddd;
+            color: #568203;
+        }
+
         .dropdown-container {
             display: none;
             background-color: #679F5A;
             padding-left: 15px;
             width: 100%;
         }
+
         .dropdown-container a {
             padding: 8px 15px;
         }
+
         .spacer {
             flex-grow: 0.8;
         }
+
         .main-content {
-            margin-left: 220px; /* Same as the width of the navbar */
+            margin-left: 220px;
             padding: 20px;
             width: 100%;
         }
+
         h1 {
             font-size: 32px;
             color: #00561B;
             margin-bottom: 20px;
         }
+
         .form-container {
-            background-color: #f2f2f2;
+            background-color: white;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        label {
+
+        .form-container label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: bold;
+            color: #00561B;
         }
-        input[type="text"], input[type="datetime-local"] {
-            width: 100%;
+
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container textarea {
+            width: calc(100% - 20px);
             padding: 10px;
             margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid #679F5A;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
         }
-        button[type="submit"] {
-            background-color: #00561B;
-            color: white;
-            padding: 10px 15px;
+
+        button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
         }
-        button[type="submit"]:hover {
-            background-color: #568203;
+
+        .submit-button {
+            background-color: #dab30a; /*  */
+            color: white;
+        }
+
+        .submit-button:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar code directly included -->
 <div class="navbar">
     <div>
-        <img src="D:\LICENTA\hospital_system\src\main\resources\static\images\hospital.png" alt="Hospital Logo">
-        <a href="#home">Acasa</a>
+        <img src="\images\hospital.png" alt="Hospital Logo">
+        <button onclick="location.href='doctor.html'">Acasa</button>
         <a href="programari.html" class="schedule">Programari</a>
         <button class="dropdown-btn">Pacienti</button>
         <div class="dropdown-container">
             <a href="vizualizare_pacienti.html">Vizualizare Pacienti</a>
             <a href="istoric_pacienti.html">Istoric Pacienti</a>
         </div>
-        <button class="dropdown-btn">Adaugare Garda</button>
-        <a href="contact.html">Contact</a>
+        <a href="garda.html" class="schedule">Adaugare Garda</a>
+<!--        <button class="dropdown-btn">Adaugare Garda</button>-->
+        <a href="contact.html" class="active">Contact</a>
     </div>
     <div class="spacer"></div>
     <form action="/logout" method="post">
@@ -122,28 +170,35 @@
 
 </div>
 
-<!-- Main content of the page -->
 <div class="main-content">
-    <h1>Adauga Programare</h1>
+    <h1>Contactați-ne</h1>
     <div class="form-container">
-        <form action="/submit_programare" method="post">
-            <label for="patientName">Nume Pacient:</label>
-            <input type="text" id="patientName" name="patientName" required>
+        <form id="contactForm">
+            <label for="name">Nume</label>
+            <input type="text" id="name" name="name" required>
 
-            <label for="appointmentTime">Data si Ora Programarii:</label>
-            <input type="datetime-local" id="appointmentTime" name="appointmentTime" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
 
-            <button type="submit">Adauga</button>
+            <label for="message">Mesaj</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit" class="submit-button">Trimite Mesaj</button>
         </form>
     </div>
 </div>
 
 <script>
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Logica pentru trimiterea mesajului
+    });
+
     var dropdown = document.getElementsByClassName("dropdown-btn");
     var i;
 
     for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
+        dropdown[i].addEventListener("click", function () {
             this.classList.toggle("active");
             var dropdownContent = this.nextElementSibling;
             if (dropdownContent.style.display === "block") {

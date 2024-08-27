@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionare Garda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            width: 200px;
+            height: 100vh;
+            background-color: #00561B;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: normal;
+        }
+
+        .navbar img {
+            width: 80px;
+            margin-bottom: 80px;
+        }
+
+        .navbar a, .dropdown-btn, .schedule, .logout-btn {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            text-align: left;
+            width: 100%;
+            border: none;
+            background: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .navbar a:hover, .dropdown-btn:hover, .schedule:hover, .logout-btn:hover {
+            background-color: #ddd;
+            color: #568203;
+        }
+
+        .navbar a.active {
+            background-color: #dab30a;
+            color: white;
+        }
+
+        .navbar button {
+            padding: 10px 15px;
+            font-size: 18px;
+            color: white;
+            background-color: #00561B;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .navbar button:hover {
+            background-color: #ddd;
+            color: #568203;
+        }
+
+        .dropdown-container {
+            display: none;
+            background-color: #679F5A;
+            padding-left: 15px;
+            width: 100%;
+        }
+
+        .dropdown-container a {
+            padding: 8px 15px;
+        }
+
+        .spacer {
+            flex-grow: 0.8;
+        }
+
+        .main-content {
+            margin-left: 220px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #00561B;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #00561B;
+
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container input[type="date"],
+        .form-container select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #679F5A;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+
+        }
+
+        /* Container pentru formular și tabel */
+        .form-container, .table-container {
+            width: 100%;
+            max-width: 1200px; /* Lățimea maximă a containerului */
+            margin: 0 auto; /* Centrează containerul */
+            padding: 20px;
+            background-color: #f4f4f4; /* Fundal pentru a se potrivi cu restul paginii */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ușor efect de umbră */
+            border-radius: 8px; /* Colțuri rotunjite */
+        }
+
+        /* Stilul pentru tabel */
+        table {
+            width: 100%; /* Tabelul să ocupe întreaga lățime a containerului */
+            border-collapse: collapse;
+            background-color: #fff;
+            margin-top: 20px; /* Adaugă spațiu între formular și tabel */
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #00561B; /* Culoarea de fundal pentru antet */
+            color: white;
+        }
+
+        /* Stilul pentru butoane */
+        button {
+            margin-right: 10px; /* Spațiu între butoane */
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-button {
+            background-color: #28a745; /* Verde */
+            color: white;
+        }
+
+        .modify-button {
+            background-color: #dab30a; /* Culoarea inițială */
+            color: white;
+        }
+
+        .delete-button {
+            background-color: #e60000; /* Roșu */
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* Flexbox pentru aliniere */
+        .form-actions {
+            display: flex;
+            justify-content: flex-start; /* Butoanele să fie aliniate la stânga */
+            margin-top: 20px;
+        }
+
+        /* Adaugă spațiere între containere */
+        .form-container {
+            margin-bottom: 30px; /* Spațiere între formular și tabel */
+        }
+
+        .table-container {
+            margin-top: 30px; /* Dacă preferi să aplici spațierea la tabel */
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div>
+        <img src="\images\hospital.png" alt="Hospital Logo">
+        <button onclick="location.href='doctor.html'">Acasa</button>
+        <a href="programari.html" class="schedule">Programari</a>
+        <button class="dropdown-btn">Pacienti</button>
+        <div class="dropdown-container">
+            <a href="vizualizare_pacienti.html">Vizualizare Pacienti</a>
+            <a href="istoric_pacienti.html">Istoric Pacienti</a>
+        </div>
+        <button class="dropdown-btn active">Adaugare Garda</button>
+        <a href="contact.html">Contact</a>
+    </div>
+    <div class="spacer"></div>
+    <form action="/logout" method="post">
+        <button type="submit">Iesire</button>
+    </form>
+
+</div>
+
+<div class="main-content">
+    <h1>Gestionare Garda</h1>
+    <div class="form-container">
+        <form id="gardaForm">
+            <label for="id_garda">ID Garda</label>
+            <input type="number" id="id_garda" name="id_garda" required>
+
+            <label for="id_doc">ID Doctor</label>
+            <input type="number" id="id_doc" name="id_doc">
+
+            <label for="id_asistent">ID Asistent</label>
+            <input type="number" id="id_asistent" name="id_asistent">
+
+            <label for="pers_tip">Tip Personal</label>
+            <input type="text" id="pers_tip" name="pers_tip" required>
+
+            <label for="data_inceput">Data Început</label>
+            <input type="date" id="data_inceput" name="data_inceput" required>
+
+            <label for="data_sfarsit">Data Sfârșit</label>
+            <input type="date" id="data_sfarsit" name="data_sfarsit" required>
+
+            <label for="nr_pacienti_ingrijiti">Număr Pacienți Îngrijiți</label>
+            <input type="number" id="nr_pacienti_ingrijiti" name="nr_pacienti_ingrijiti" required>
+
+            <label for="consumabile_folosite">Consumabile Folosite</label>
+            <input type="text" id="consumabile_folosite" name="consumabile_folosite" required>
+
+            <button type="submit" class="add-button">Adaugă Garda</button>
+            <button type="submit" class="modify-button">Modifică Garda</button>
+            <button type="button" class="delete-button" onclick="deleteGarda()">Șterge Garda</button>
+        </form>
+    </div>
+    <div class="table-container">
+        <table id="patientsTable">
+            <thead>
+            <tr>
+            <th>ID Garda</th>
+            <th>ID Doctor</th>
+            <th>ID Asistent</th>
+            <th>Tip Personal</th>
+            <th>Data Început</th>
+            <th>Data Sfârșit</th>
+            <th>Număr Pacienți Îngrijiți</th>
+            <th>Consumabile Folosite</th>
+            </tr>
+        </thead>
+        <tbody id="gardaTableBody">
+        <!-- Datele vor fi populate din backend -->
+        </tbody>
+    </table>
+</div>
+</div>
+<script>
+    document.getElementById('gardaForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Logica pentru adăugare sau modificare a gardă
+    });
+
+    function deleteGarda() {
+        // Logica pentru ștergerea unei gărzi
+    }
+
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

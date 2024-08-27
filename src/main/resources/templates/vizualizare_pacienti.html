@@ -10,85 +10,238 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            display: flex;
         }
-        .container {
-            width: 80%;
-            margin: 20px auto;
+
+        .navbar {
+            width: 200px;
+            height: 100vh;
+            background-color: #00561B;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: normal;
         }
+
+        .navbar img {
+            width: 80px;
+            margin-bottom: 80px;
+        }
+
+        .navbar a, .dropdown-btn, .schedule, .logout-btn {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            text-align: left;
+            width: 100%;
+            border: none;
+            background: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .navbar a:hover, .dropdown-btn:hover, .schedule:hover, .logout-btn:hover {
+            background-color: #ddd;
+            color: #568203;
+        }
+
+        .navbar a.active {
+            background-color: #dab30a;
+            color: white;
+        }
+
+        .navbar button {
+            padding: 10px 15px;
+            font-size: 18px;
+            color: white;
+            background-color: #00561B;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .navbar button:hover {
+            background-color: #ddd;
+            color: #568203;
+        }
+
+        .dropdown-container {
+            display: none;
+            background-color: #679F5A;
+            padding-left: 15px;
+            width: 100%;
+        }
+
+        .dropdown-container a {
+            padding: 8px 15px;
+        }
+
+        .spacer {
+            flex-grow: 0.8;
+        }
+
+        .main-content {
+            margin-left: 220px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #00561B;
+            margin-bottom: 20px;
+        }
+
+        .add-button {
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #00561B;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .add-button:hover {
+            background-color: #568203;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #00561B;
+            color: white;
+        }
+
+        td {
+            background-color: #f2f2f2;
+        }
+
+        .highlight {
+            background-color: #e0f7fa;
+        }
+
         .search-bar {
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .search-bar input[type="text"] {
             width: 70%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
         .search-bar select {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            background-color: #dab30a;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+        .search-bar select:hover {
+            background-color: #cfa108;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        .highlight {
-            background-color: #e0f7fa;
+
+        .search-bar select:focus {
+            outline: none;
+            border-color: #568203;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Caută pacienți...">
-        <select id="filterGroup">
-            <option value="">Filtrează după grupă de sânge</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="AB">AB</option>
-            <option value="O">O</option>
-        </select>
-        <select id="filterRh">
-            <option value="">Filtrează după Rh</option>
-            <option value="Pozitiv">Pozitiv</option>
-            <option value="Negativ">Negativ</option>
-        </select>
+
+<div class="navbar">
+    <div>
+        <img src="\images\hospital.png" alt="Hospital Logo">
+        <button onclick="location.href='doctor.html'">Acasa</button>
+        <a href="programari.html" class="schedule">Programari</a>
+        <button class="dropdown-btn">Pacienti</button>
+        <div class="dropdown-container">
+            <a href="vizualizare_pacienti.html">Vizualizare Pacienti</a>
+            <a href="istoric_pacienti.html">Istoric Pacienti</a>
+        </div>
+        <a href="garda.html" class="schedule">Adaugare Garda</a>
+        <!--        <button class="dropdown-btn">Adaugare Garda</button>-->
+        <a href="contact.html">Contact</a>
     </div>
-    <table id="patientsTable">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nume</th>
-            <th>Prenume</th>
-            <th>CNP</th>
-            <th>Data Nașterii</th>
-            <th>Gen</th>
-            <th v>vârsta</th>
-            <th>Adresă</th>
-            <th>Telefon</th>
-            <th>Email</th>
-            <th>Grupa de sânge</th>
-            <th>Rh</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Datele pacienților vor fi populate aici de PHP -->
-        </tbody>
-    </table>
+    <div class="spacer"></div>
+    <form action="/logout" method="post">
+        <button type="submit">Iesire</button>
+    </form>
+
+</div>
+
+<div class="main-content">
+    <h1>Lista Pacienților</h1>
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Caută pacienți...">
+            <select id="filterGroup">
+                <option value="">Filtrează după grupă de sânge</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="AB">AB</option>
+                <option value="O">O</option>
+            </select>
+            <select id="filterRh">
+                <option value="">Filtrează după Rh</option>
+                <option value="Pozitiv">Pozitiv</option>
+                <option value="Negativ">Negativ</option>
+            </select>
+        </div>
+        <table id="patientsTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nume</th>
+                <th>Prenume</th>
+                <th>CNP</th>
+                <th>Data Nașterii</th>
+                <th>Gen</th>
+                <th>Vârstă</th>
+                <th>Adresă</th>
+                <th>Telefon</th>
+                <th>Email</th>
+                <th>Grupa de sânge</th>
+                <th>Rh</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Datele pacienților vor fi populate aici de PHP -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
@@ -117,6 +270,21 @@
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
+            }
+        });
+    }
+
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
             }
         });
     }
