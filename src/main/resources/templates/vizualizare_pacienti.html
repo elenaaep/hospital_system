@@ -177,13 +177,43 @@
             border-color: #568203;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
+
+        .action-icon {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 5px;
+            margin-right: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .edit-btn img {
+            filter: invert(65%) sepia(82%) saturate(641%) hue-rotate(13deg) brightness(101%) contrast(105%);
+        }
+
+        .delete-btn img {
+            filter: invert(24%) sepia(72%) saturate(7511%) hue-rotate(353deg) brightness(90%) contrast(98%);
+        }
+
+        .edit-btn:hover img {
+            filter: invert(46%) sepia(89%) saturate(1400%) hue-rotate(8deg) brightness(106%) contrast(107%);
+        }
+
+        .delete-btn:hover img {
+            filter: invert(31%) sepia(100%) saturate(4818%) hue-rotate(353deg) brightness(93%) contrast(110%);
+        }
     </style>
 </head>
 <body>
 
 <div class="navbar">
     <div>
-        <img src="\images\hospital.png" alt="Hospital Logo">
+        <img src="/images/hospital.png" alt="Hospital Logo">
         <button onclick="location.href='doctor.html'">Acasa</button>
         <a href="programari.html" class="schedule">Programari</a>
         <button class="dropdown-btn">Pacienti</button>
@@ -192,18 +222,17 @@
             <a href="istoric_pacienti.html">Istoric Pacienti</a>
         </div>
         <a href="garda.html" class="schedule">Adaugare Garda</a>
-        <!--        <button class="dropdown-btn">Adaugare Garda</button>-->
         <a href="contact.html">Contact</a>
     </div>
     <div class="spacer"></div>
     <form action="/logout" method="post">
         <button type="submit">Iesire</button>
     </form>
-
 </div>
 
 <div class="main-content">
     <h1>Lista Pacienților</h1>
+    <a href="adauga_pacient.html" class="add-button">Adaugă Pacient</a>
     <div class="container">
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Caută pacienți...">
@@ -235,59 +264,62 @@
                 <th>Email</th>
                 <th>Grupa de sânge</th>
                 <th>Rh</th>
+                <th>Acțiuni</th>
             </tr>
             </thead>
             <tbody>
-            <!-- Datele pacienților vor fi populate aici de PHP -->
+
             </tbody>
         </table>
     </div>
 </div>
 
 <script>
-    document.getElementById('searchInput').addEventListener('input', filterTable);
-    document.getElementById('filterGroup').addEventListener('change', filterTable);
-    document.getElementById('filterRh').addEventListener('change', filterTable);
+    document.addEventListener("DOMContentLoaded", function() {
+        fetchPacienti();
+    });
 
-    function filterTable() {
-        const searchInput = document.getElementById('searchInput').value.toLowerCase();
-        const filterGroup = document.getElementById('filterGroup').value;
-        const filterRh = document.getElementById('filterRh').value;
-        const table = document.getElementById('patientsTable');
-        const rows = table.querySelectorAll('tbody tr');
-
-        rows.forEach(row => {
-            const cells = row.querySelectorAll('td');
-            const name = cells[1].textContent.toLowerCase() + ' ' + cells[2].textContent.toLowerCase();
-            const group = cells[10].textContent;
-            const rh = cells[11].textContent;
-
-            const matchesSearch = name.includes(searchInput);
-            const matchesGroup = filterGroup === '' || group === filterGroup;
-            const matchesRh = filterRh === '' || rh === filterRh;
-
-            if (matchesSearch && matchesGroup && matchesRh) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
+    function fetchPacienti() {
+        fetch('/pacienti/list')
+            .then(response => response.json())
+            .then(data => populateTable(data))
+            .catch(error => console.error('Error fetching pacienti:', error));
     }
 
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
+    function populateTable(pacienti) {
+        const tableBody = document.querySelector('#patientsTable tbody');
+        tableBody.innerHTML = '';
 
-    for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
-            }
+        pacienti.forEach(pacient => {
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td>${pacient.idPacient}</td>
+                <td>${pacient.nume}</td>
+                <td>${pacient.prenume}</td>
+                <td>${pacient.cnp}</td>
+                <td>${new Date(pacient.dataNasterii).toLocaleDateString()}</td>
+                <td>${pacient.gen}</td>
+                <td>${pacient.varsta}</td>
+                <td>${pacient.adresa}</td>
+                <td>${pacient.tel}</td>
+                <td>${pacient.email}</td>
+                <td>${pacient.grupaSange}</td>
+                <td>${pacient.rh}</td>
+                <td>
+                    <button class="edit-btn">
+                        <img src="/images/pencil.png" alt="Editare" class="action-icon">
+                    </button>
+                    <button class="delete-btn">
+                        <img src="/images/bin.png" alt="Ștergere" class="action-icon">
+                    </button>
+                </td>
+            `;
+
+            tableBody.appendChild(row);
         });
     }
 </script>
+
 </body>
 </html>

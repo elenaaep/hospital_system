@@ -146,6 +146,29 @@
             border-radius: 50%;
             object-fit: cover;
         }
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .stat-box {
+            flex: 1;
+            background-color: #e0f2f1;
+            border: 1px solid #b2dfdb;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 0 10px;
+        }
+        .stat-box h3 {
+            margin: 0;
+            color: #00796b;
+        }
+        .stat-box p {
+            font-size: 24px;
+            margin: 10px 0 0;
+            color: #004d40;
+        }
     </style>
 </head>
 <body>
@@ -182,6 +205,26 @@
             <p>Biroul sau se afla la etajul 5 al spitalului nostru. Pentru consultatii sau informatii suplimentare, il puteti contacta la numarul 0723456798 sau pe email la gabriel.florescu@gmail.com.</p>
         </div>
         <img src="\images\doctor.png" alt="Dr. Gabriel Florescu" class="doctor-photo">
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="stats-container">
+        <div class="stat-box">
+            <h3>Numar Doctori</h3>
+            <p th:text="${totalDoctors}">0</p>
+        </div>
+        <div class="stat-box">
+            <h3>Numar Asistenti</h3>
+            <p th:text="${totalNurses}">0</p>
+        </div>
+        <div class="stat-box">
+            <h3>Numar Pacienti</h3>
+            <p th:text="${totalPatients}">0</p>
+        </div>
+        <div class="stat-box">
+            <h3>Programari Doctor</h3>
+            <p th:text="${totalAppointments}">0</p>
+        </div>
     </div>
 </div>
 
