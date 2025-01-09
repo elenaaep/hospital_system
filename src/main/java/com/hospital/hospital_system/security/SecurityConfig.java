@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
@@ -40,7 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**", "/login", "/register", "/static/**", "/css/**", "/js/**", "/pacients", "/statistics").permitAll()
 //                        .requestMatchers("/admin/**").hasRole("Admin")
                         .requestMatchers("/pacients/**").hasAuthority("Doctor")
-                        .requestMatchers("/doctor/**", "/pacients/**").hasAuthority("Doctor")
+                        .requestMatchers("/doctor/**", "/pacients/**", "/list").hasAuthority("Doctor")
                         .requestMatchers("/asistent/**").hasAuthority("Asistent")
                         .requestMatchers("/pacient/**").hasAuthority("Pacient")
                         .anyRequest().authenticated()

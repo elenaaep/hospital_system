@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 
 import java.util.List;
 
@@ -24,25 +22,18 @@ public class PacientiController {
         this.pacientiService = pacientiService;
     }
 
-    // Endpoint pentru a returna pagina HTML
+    // Endpoint pentru a returna pagina HTML cu pacienți
     @GetMapping("/pacients")
     public String getPacientiPage(Model model) {
         try {
             List<PacientiDto> pacients = pacientiService.findAllPacienti();
-            model.addAttribute("pacient", pacients);
+            model.addAttribute("pacienti", pacients);  // Adăugăm lista de pacienți în model
             logger.info("Accessing /pacients endpoint: Retrieved {} pacienti", pacients.size());
-            return "vizualizare_pacienti";
+            return "vizualizare_pacienti";  // Returnează pagina HTML
         } catch (Exception e) {
             logger.error("Error occurred while retrieving pacients", e);
             model.addAttribute("error", "An error occurred while retrieving the list of pacients.");
-            return "error"; //
+            return "error";  // În caz de eroare, arată pagina de eroare
         }
-    }
-
-    // Endpoint pentru a obține lista de pacienți în format JSON
-    @GetMapping("/list")
-    @ResponseBody
-    public List<PacientiDto> getAllPacienti() {
-        return pacientiService.findAllPacienti();
     }
 }

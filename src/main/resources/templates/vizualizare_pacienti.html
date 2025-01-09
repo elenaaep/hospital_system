@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -93,7 +93,8 @@
         .main-content {
             margin-left: 220px;
             padding: 20px;
-            width: 100%;
+            max-width: 1400px;
+            overflow-x: auto;
         }
 
         h1 {
@@ -103,18 +104,65 @@
         }
 
         .add-button {
-            margin-bottom: 20px;
-            padding: 10px 15px;
-            font-size: 16px;
+            margin-left: 10px;
+            padding: 11px 20px; /* Reduce lățimea (padding orizontal), crește lungimea (padding vertical) */
+            font-size: 16px; /* Dimensiunea fontului mai mică */
             background-color: #00561B;
             color: white;
             border: none;
             cursor: pointer;
             text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            white-space: nowrap
         }
 
         .add-button:hover {
             background-color: #568203;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar input[type="text"] {
+            width: 60%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-bar select {
+            margin-right: 10px; /* Spațiere între select-uri */
+
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #dab30a;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .search-bar select:hover {
+            background-color: #cfa108;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-bar select:focus {
+            outline: none;
+            border-color: #568203;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-bar > * {
+            margin-right: 15px; /* Spațiere uniformă între toate elementele */
         }
 
         table {
@@ -141,41 +189,6 @@
 
         .highlight {
             background-color: #e0f7fa;
-        }
-
-        .search-bar {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .search-bar input[type="text"] {
-            width: 70%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .search-bar select {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #dab30a;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .search-bar select:hover {
-            background-color: #cfa108;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .search-bar select:focus {
-            outline: none;
-            border-color: #568203;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .action-icon {
@@ -214,42 +227,57 @@
 <div class="navbar">
     <div>
         <img src="/images/hospital.png" alt="Hospital Logo">
-        <button onclick="location.href='doctor.html'">Acasa</button>
-        <a href="programari.html" class="schedule">Programari</a>
-        <button class="dropdown-btn">Pacienti</button>
+        <a href="/doctor">Acasă</a>
+        <a href="programari.html" class="schedule">Programări</a>
+        <button class="dropdown-btn">Pacienți</button>
         <div class="dropdown-container">
-            <a href="vizualizare_pacienti.html">Vizualizare Pacienti</a>
-            <a href="istoric_pacienti.html">Istoric Pacienti</a>
+            <a href="vizualizare_pacienti.html">Vizualizare Pacienți</a>
+            <a href="istoric_pacienti.html">Istoric Pacienți</a>
         </div>
-        <a href="garda.html" class="schedule">Adaugare Garda</a>
+        <a href="garda.html" class="schedule">Adăugare Gardă</a>
         <a href="contact.html">Contact</a>
     </div>
     <div class="spacer"></div>
     <form action="/logout" method="post">
-        <button type="submit">Iesire</button>
+        <button type="submit">Ieșire</button>
     </form>
 </div>
 
 <div class="main-content">
     <h1>Lista Pacienților</h1>
-    <a href="adauga_pacient.html" class="add-button">Adaugă Pacient</a>
+
+    <!-- Barra de căutare -->
+    <div class="search-bar">
+        <input type="text" placeholder="Căutare pacient..." />
+
+        <!-- Select pentru Filtrare -->
+        <select id="filter-gen">
+            <option value="">Gen</option>
+            <option value="M">Masculin</option>
+            <option value="F">Feminin</option>
+        </select>
+
+        <select id="filter-rh">
+            <option value="">Rh</option>
+            <option value="pozitiv">Pozitiv</option>
+            <option value="negativ">Negativ</option>
+        </select>
+
+        <select id="filter-sange">
+            <option value="">Grupa de sânge</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="O">O</option>
+            <option value="AB">AB</option>
+        </select>
+
+        <a href="adauga_pacient.html" class="add-button">Adaugă Pacient</a>
+    </div>
+
+<!--    <a href="adauga_pacient.html" class="add-button">Adaugă Pacient</a>-->
+
     <div class="container">
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Caută pacienți...">
-            <select id="filterGroup">
-                <option value="">Filtrează după grupă de sânge</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="AB">AB</option>
-                <option value="O">O</option>
-            </select>
-            <select id="filterRh">
-                <option value="">Filtrează după Rh</option>
-                <option value="Pozitiv">Pozitiv</option>
-                <option value="Negativ">Negativ</option>
-            </select>
-        </div>
-        <table id="patientsTable">
+        <table class="table">
             <thead>
             <tr>
                 <th>ID</th>
@@ -268,58 +296,29 @@
             </tr>
             </thead>
             <tbody>
-
+            <!-- Folosim Thymeleaf pentru a itera prin lista de pacienți -->
+            <tr th:each="pacient : ${pacienti}">
+                <td th:text="${pacient.idPacient}"></td>
+                <td th:text="${pacient.nume}"></td>
+                <td th:text="${pacient.prenume}"></td>
+                <td th:text="${pacient.cnp}"></td>
+                <td th:text="${#dates.format(pacient.dataNasterii, 'dd/MM/yyyy')}"></td>
+                <td th:text="${pacient.gen}"></td>
+                <td th:text="${pacient.varsta}"></td>
+                <td th:text="${pacient.adresa}"></td>
+                <td th:text="${pacient.tel}"></td>
+                <td th:text="${pacient.email}"></td>
+                <td th:text="${pacient.grupaSange}"></td>
+                <td th:text="${pacient.rh}"></td>
+                <td>
+                    <a href="#" class="btn btn-info">Modifică</a>
+                    <a href="#" class="btn btn-danger">Șterge</a>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        fetchPacienti();
-    });
-
-    function fetchPacienti() {
-        fetch('/pacienti/list')
-            .then(response => response.json())
-            .then(data => populateTable(data))
-            .catch(error => console.error('Error fetching pacienti:', error));
-    }
-
-    function populateTable(pacienti) {
-        const tableBody = document.querySelector('#patientsTable tbody');
-        tableBody.innerHTML = '';
-
-        pacienti.forEach(pacient => {
-            const row = document.createElement('tr');
-
-            row.innerHTML = `
-                <td>${pacient.idPacient}</td>
-                <td>${pacient.nume}</td>
-                <td>${pacient.prenume}</td>
-                <td>${pacient.cnp}</td>
-                <td>${new Date(pacient.dataNasterii).toLocaleDateString()}</td>
-                <td>${pacient.gen}</td>
-                <td>${pacient.varsta}</td>
-                <td>${pacient.adresa}</td>
-                <td>${pacient.tel}</td>
-                <td>${pacient.email}</td>
-                <td>${pacient.grupaSange}</td>
-                <td>${pacient.rh}</td>
-                <td>
-                    <button class="edit-btn">
-                        <img src="/images/pencil.png" alt="Editare" class="action-icon">
-                    </button>
-                    <button class="delete-btn">
-                        <img src="/images/bin.png" alt="Ștergere" class="action-icon">
-                    </button>
-                </td>
-            `;
-
-            tableBody.appendChild(row);
-        });
-    }
-</script>
 
 </body>
 </html>

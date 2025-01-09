@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -151,23 +151,21 @@
 
 <div class="navbar">
     <div>
-        <img src="\images\hospital.png" alt="Hospital Logo">
-        <button onclick="location.href='doctor.html'">Acasa</button>
-        <a href="programari.html" class="schedule">Programari</a>
-        <button class="dropdown-btn">Pacienti</button>
+        <img src="/images/hospital.png" alt="Hospital Logo">
+        <a href="/doctor">Acasă</a>
+        <a href="programari.html" class="schedule">Programări</a>
+        <button class="dropdown-btn">Pacienți</button>
         <div class="dropdown-container">
-            <a href="vizualizare_pacienti.html">Vizualizare Pacienti</a>
-            <a href="istoric_pacienti.html">Istoric Pacienti</a>
+            <a href="/pacients">Vizualizare Pacienți</a>
+            <a href="istoric_pacienti.html">Istoric Pacienți</a>
         </div>
-        <a href="garda.html" class="schedule">Adaugare Garda</a>
-<!--        <button class="dropdown-btn">Adaugare Garda</button>-->
-        <a href="contact.html" class="active">Contact</a>
+        <a href="garda.html" class="schedule">Adăugare Gardă</a>
+        <a href="contact.html">Contact</a>
     </div>
     <div class="spacer"></div>
     <form action="/logout" method="post">
-        <button type="submit">Iesire</button>
+        <button type="submit">Ieșire</button>
     </form>
-
 </div>
 
 <div class="main-content">
