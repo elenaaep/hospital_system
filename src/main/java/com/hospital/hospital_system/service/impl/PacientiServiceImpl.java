@@ -45,4 +45,73 @@ public class PacientiServiceImpl implements PacientiService {
                 .build();
         return pacientiDto;
     }
+
+    @Override
+    public void addPacient(PacientiDto pacient) {
+        Pacienti pacientEntity = mapToEntity(pacient);
+        pacientiRepository.save(pacientEntity);
+    }
+
+    @Override
+    public void updatePacient(int id, PacientiDto pacientDto) {
+        // Găsește pacientul existent
+        Pacienti pacient = pacientiRepository.findByIdPacient(id)
+                .orElseThrow(() -> new RuntimeException("Pacientul nu a fost găsit!"));
+
+        // Actualizează câmpurile
+        pacient.setNume(pacientDto.getNume());
+        pacient.setPrenume(pacientDto.getPrenume());
+        pacient.setCnp(pacientDto.getCnp());
+        pacient.setDataNasterii(pacientDto.getDataNasterii());
+        pacient.setGen(pacientDto.getGen());
+        pacient.setGrupaSange(pacientDto.getGrupaSange());
+        pacient.setRh(pacientDto.getRh());
+
+        // Salvează modificările
+        pacientiRepository.save(pacient);
+    }
+    @Override
+    public void deletePacient(int id) {
+        Pacienti pacient = pacientiRepository.findByIdPacient(id)
+                .orElseThrow(() -> new RuntimeException("Pacient not found"));
+        pacientiRepository.delete(pacient);
+    }
+
+    private Pacienti mapToEntity(PacientiDto pacientiDto) {
+        return Pacienti.builder()
+                .idPacient(pacientiDto.getIdPacient())
+                .nume(pacientiDto.getNume())
+                .prenume(pacientiDto.getPrenume())
+                .cnp(pacientiDto.getCnp())
+                .dataNasterii(pacientiDto.getDataNasterii())
+                .gen(pacientiDto.getGen())
+                .varsta(pacientiDto.getVarsta())
+                .adresa(pacientiDto.getAdresa())
+                .tel(pacientiDto.getTel())
+                .email(pacientiDto.getEmail())
+                .grupaSange(pacientiDto.getGrupaSange())
+                .rh(pacientiDto.getRh())
+                .build();
+    }
+
+    public PacientiDto findById(int id) {
+        // Exemplu simplificat
+        Pacienti pacient = pacientiRepository.findById(id).orElseThrow(() -> new RuntimeException("Pacient not found"));
+        return PacientiDto.builder()
+                .idPacient(pacient.getIdPacient())
+                .nume(pacient.getNume())
+                .prenume(pacient.getPrenume())
+                .cnp(pacient.getCnp())
+                .dataNasterii(pacient.getDataNasterii())
+                .gen(pacient.getGen())
+                .varsta(pacient.getVarsta())
+                .adresa(pacient.getAdresa())
+                .tel(pacient.getTel())
+                .email(pacient.getEmail())
+                .grupaSange(pacient.getGrupaSange())
+                .rh(pacient.getRh())
+                .build();
+    }
+
+
 }

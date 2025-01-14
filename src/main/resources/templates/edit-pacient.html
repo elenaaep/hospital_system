@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editează Pacient</title>
+</head>
+<body>
+<h1>Editează Pacient</h1>
+<form th:action="@{/pacienti/update/{id}(id=${pacient.idPacient})}" method="post">
+    <label for="nume">Nume:</label>
+    <input type="text" id="nume" name="nume" th:value="${pacient.nume}" required>
+    <label for="prenume">Prenume:</label>
+    <input type="text" id="prenume" name="prenume" th:value="${pacient.prenume}" required>
+    <label for="cnp">CNP:</label>
+    <input type="text" id="cnp" name="cnp" th:value="${pacient.cnp}" required>
+    <label for="dataNasterii">Data Nașterii:</label>
+    <input type="date" id="dataNasterii" name="dataNasterii" th:value="${pacient.dataNasterii}" required>
+    <label for="gen">Gen:</label>
+    <select id="gen" name="gen" th:value="${pacient.gen}">
+        <option value="M">Masculin</option>
+        <option value="F">Feminin</option>
+    </select>
+    <label for="grupaSange">Grupa Sanguină:</label>
+    <input type="text" id="grupaSange" name="grupaSange" th:value="${pacient.grupaSange}">
+    <label for="rh">RH:</label>
+    <select id="rh" name="rh" th:value="${pacient.rh}">
+        <option value="pozitiv">Pozitiv</option>
+        <option value="negativ">Negativ</option>
+    </select>
+    <button type="submit">Actualizează</button>
+</form>
+</body>
+</html>

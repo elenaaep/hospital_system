@@ -271,7 +271,7 @@
             <option value="AB">AB</option>
         </select>
 
-        <a href="adauga_pacient.html" class="add-button">Adaugă Pacient</a>
+        <a href="/new" class="add-button">Adaugă Pacient</a>
     </div>
 
 <!--    <a href="adauga_pacient.html" class="add-button">Adaugă Pacient</a>-->
@@ -311,8 +311,11 @@
                 <td th:text="${pacient.grupaSange}"></td>
                 <td th:text="${pacient.rh}"></td>
                 <td>
-                    <a href="#" class="btn btn-info">Modifică</a>
-                    <a href="#" class="btn btn-danger">Șterge</a>
+                    <!-- Link pentru ștergere -->
+                    <a th:href="@{/pacienti/delete/{id}(id=${pacient.idPacient})}" class="delete-btn">Șterge</a>
+
+                    <!-- Link pentru editare -->
+                    <a th:href="@{/edit/{id}(id=${pacient.idPacient})}" class="edit-btn">Editează</a>
                 </td>
             </tr>
             </tbody>

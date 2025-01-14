@@ -27,6 +27,15 @@ public class User {
     @Column(name = "utip", nullable = false)
     private String utip;
 
+    @Column(name = "id_doc", nullable = true)
+    private Integer idDoc;
+
+    @Column(name = "id_pacient", nullable = true)
+    private Integer idPacient;
+
+    @Column(name = "id_asistent", nullable = true)
+    private Integer idAsistent;
+
     // Getters and Setters
     public String getIdUser() {
         return idUser;

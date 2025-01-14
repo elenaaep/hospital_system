@@ -8,4 +8,9 @@ import java.util.List;
 @Service
 public interface PacientiService {
     List<PacientiDto> findAllPacienti();
+    void addPacient(PacientiDto pacient);
+    void updatePacient(int id, PacientiDto pacientDto); // Adaugă această metodă
+    void deletePacient(int id);
+
+    PacientiDto findById(int id);
 }
