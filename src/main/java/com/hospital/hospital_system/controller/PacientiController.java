@@ -23,20 +23,33 @@ public class PacientiController {
         this.pacientiService = pacientiService;
     }
 
-    // Endpoint pentru a returna pagina HTML cu pacienți
     @GetMapping("/pacients")
-    public String getPacientiPage(Model model) {
+    public String getPacientiPage(@RequestParam(value = "search", required = false) String searchTerm,
+                                  @RequestParam(value = "gen", required = false) String gen,
+                                  @RequestParam(value = "rh", required = false) String rh,
+                                  @RequestParam(value = "grupaSange", required = false) String grupaSange,
+                                  Model model) {
         try {
-            List<PacientiDto> pacients = pacientiService.findAllPacienti();
-            model.addAttribute("pacienti", pacients);  // Adăugăm lista de pacienți în model
+            List<PacientiDto> pacients;
+            if (searchTerm != null && !searchTerm.isEmpty() || gen != null || rh != null || grupaSange != null) {
+                pacients = pacientiService.searchPacienti(searchTerm, gen, rh, grupaSange); // Trimite filtrele către service
+            } else {
+                pacients = pacientiService.findAllPacienti();
+            }
+            model.addAttribute("pacienti", pacients);
+            model.addAttribute("searchTerm", searchTerm);
+            model.addAttribute("gen", gen);
+            model.addAttribute("rh", rh);
+            model.addAttribute("grupaSange", grupaSange);
             logger.info("Accessing /pacients endpoint: Retrieved {} pacienti", pacients.size());
-            return "vizualizare_pacienti";  // Returnează pagina HTML
+            return "vizualizare_pacienti";
         } catch (Exception e) {
             logger.error("Error occurred while retrieving pacients", e);
             model.addAttribute("error", "An error occurred while retrieving the list of pacients.");
-            return "error";  // În caz de eroare, arată pagina de eroare
+            return "error";
         }
     }
+
 
 
     @GetMapping("/new")

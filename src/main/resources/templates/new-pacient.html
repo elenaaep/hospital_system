@@ -7,7 +7,10 @@
 </head>
 <body>
 <h1>Adaugă un nou pacient</h1>
-<form action="/pacienti/add" method="post">
+<form action="/add" method="post">
+    <label for="idPacient">ID Pacient:</label>
+    <input type="text" id="idPacient" name="idPacient" required>
+
     <label for="nume">Nume:</label>
     <input type="text" id="nume" name="nume" required>
 
@@ -21,18 +24,30 @@
     <input type="date" id="dataNasterii" name="dataNasterii" required>
 
     <label for="gen">Gen:</label>
-    <select id="gen" name="gen">
+    <select id="gen" name="gen" required>
         <option value="M">Masculin</option>
         <option value="F">Feminin</option>
     </select>
 
+    <label for="varsta">Vârsta:</label>
+    <input type="number" id="varsta" name="varsta" required>
+
+    <label for="adresa">Adresă:</label>
+    <input type="text" id="adresa" name="adresa" required>
+
+    <label for="tel">Telefon:</label>
+    <input type="tel" id="tel" name="tel" pattern="[0-9]{10}" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
     <label for="grupaSange">Grupa Sanguină:</label>
-    <input type="text" id="grupaSange" name="grupaSange">
+    <input type="text" id="grupaSange" name="grupaSange" required>
 
     <label for="rh">RH:</label>
-    <select id="rh" name="rh">
-        <option value="pozitiv">Pozitiv</option>
-        <option value="negativ">Negativ</option>
+    <select id="rh" name="rh" required>
+        <option value="Pozitiv">Pozitiv</option>
+        <option value="Negativ">Negativ</option>
     </select>
 
     <button type="submit">Salvează</button>

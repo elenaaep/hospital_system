@@ -13,4 +13,9 @@ public interface PacientiService {
     void deletePacient(int id);
 
     PacientiDto findById(int id);
+
+    List<PacientiDto> searchPacienti(String searchTerm);
+
+    // Căutare pacienți după criterii multiple (searchTerm, gen, Rh, grupa de sânge)
+    List<PacientiDto> searchPacienti(String searchTerm, String gen, String rh, String grupaSange);
 }

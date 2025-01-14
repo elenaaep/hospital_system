@@ -58,23 +58,6 @@
             color: white;
         }
 
-        .navbar button {
-            padding: 10px 15px;
-            font-size: 18px;
-            color: white;
-            background-color: #00561B;
-            border: none;
-            cursor: pointer;
-            text-align: left;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .navbar button:hover {
-            background-color: #ddd;
-            color: #568203;
-        }
-
         .dropdown-container {
             display: none;
             background-color: #679F5A;
@@ -105,8 +88,8 @@
 
         .add-button {
             margin-left: 10px;
-            padding: 11px 20px; /* Reduce lățimea (padding orizontal), crește lungimea (padding vertical) */
-            font-size: 16px; /* Dimensiunea fontului mai mică */
+            padding: 10px 15px;
+            font-size: 16px;
             background-color: #00561B;
             color: white;
             border: none;
@@ -115,7 +98,7 @@
             display: inline-block;
             border-radius: 5px;
             transition: background-color 0.3s;
-            white-space: nowrap
+            white-space: nowrap;
         }
 
         .add-button:hover {
@@ -127,6 +110,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px; /* Spațiere mai mare între toate elementele din bară */
         }
 
         .search-bar input[type="text"] {
@@ -138,8 +122,7 @@
         }
 
         .search-bar select {
-            margin-right: 10px; /* Spațiere între select-uri */
-
+            margin-right: 10px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -161,8 +144,18 @@
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .search-bar > * {
-            margin-right: 15px; /* Spațiere uniformă între toate elementele */
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: #00561B;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-bar button:hover {
+            background-color: #568203;
         }
 
         table {
@@ -170,6 +163,7 @@
             border-collapse: collapse;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
         th, td {
@@ -184,41 +178,27 @@
         }
 
         td {
-            background-color: #f2f2f2;
+            background-color: #f9f9f9;
+        }
+
+        .navbar form button {
+            padding: 10px 15px;
+            font-size: 18px;
+            color: white;
+            background-color: #00561B;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+        }
+
+        .navbar form button:hover {
+            background-color: #568203;
+            color: white;
         }
 
         .highlight {
             background-color: #e0f7fa;
-        }
-
-        .action-icon {
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
-        }
-
-        .edit-btn, .delete-btn {
-            padding: 5px;
-            margin-right: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .edit-btn img {
-            filter: invert(65%) sepia(82%) saturate(641%) hue-rotate(13deg) brightness(101%) contrast(105%);
-        }
-
-        .delete-btn img {
-            filter: invert(24%) sepia(72%) saturate(7511%) hue-rotate(353deg) brightness(90%) contrast(98%);
-        }
-
-        .edit-btn:hover img {
-            filter: invert(46%) sepia(89%) saturate(1400%) hue-rotate(8deg) brightness(106%) contrast(107%);
-        }
-
-        .delete-btn:hover img {
-            filter: invert(31%) sepia(100%) saturate(4818%) hue-rotate(353deg) brightness(93%) contrast(110%);
         }
     </style>
 </head>
@@ -246,35 +226,29 @@
 <div class="main-content">
     <h1>Lista Pacienților</h1>
 
-    <!-- Barra de căutare -->
-    <div class="search-bar">
-        <input type="text" placeholder="Căutare pacient..." />
+    <form method="get" action="/pacients" class="search-bar">
+        <input type="text" name="search" th:value="${searchTerm}" placeholder="Căutare pacienți...">
 
-        <!-- Select pentru Filtrare -->
-        <select id="filter-gen">
+        <select name="gen">
             <option value="">Gen</option>
-            <option value="M">Masculin</option>
-            <option value="F">Feminin</option>
+            <option value="M" th:selected="${gen == 'M'}">Masculin</option>
+            <option value="F" th:selected="${gen == 'F'}">Feminin</option>
         </select>
-
-        <select id="filter-rh">
+        <select name="rh">
             <option value="">Rh</option>
-            <option value="pozitiv">Pozitiv</option>
-            <option value="negativ">Negativ</option>
+            <option value="pozitiv" th:selected="${rh == 'pozitiv'}">Pozitiv</option>
+            <option value="negativ" th:selected="${rh == 'negativ'}">Negativ</option>
         </select>
-
-        <select id="filter-sange">
+        <select name="grupaSange">
             <option value="">Grupa de sânge</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="O">O</option>
-            <option value="AB">AB</option>
+            <option value="A" th:selected="${grupaSange == 'A'}">A</option>
+            <option value="B" th:selected="${grupaSange == 'B'}">B</option>
+            <option value="O" th:selected="${grupaSange == 'O'}">O</option>
+            <option value="AB" th:selected="${grupaSange == 'AB'}">AB</option>
         </select>
-
+        <button type="submit">Căutare</button>
         <a href="/new" class="add-button">Adaugă Pacient</a>
-    </div>
-
-<!--    <a href="adauga_pacient.html" class="add-button">Adaugă Pacient</a>-->
+    </form>
 
     <div class="container">
         <table class="table">
@@ -296,7 +270,6 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Folosim Thymeleaf pentru a itera prin lista de pacienți -->
             <tr th:each="pacient : ${pacienti}">
                 <td th:text="${pacient.idPacient}"></td>
                 <td th:text="${pacient.nume}"></td>
@@ -311,10 +284,7 @@
                 <td th:text="${pacient.grupaSange}"></td>
                 <td th:text="${pacient.rh}"></td>
                 <td>
-                    <!-- Link pentru ștergere -->
                     <a th:href="@{/pacienti/delete/{id}(id=${pacient.idPacient})}" class="delete-btn">Șterge</a>
-
-                    <!-- Link pentru editare -->
                     <a th:href="@{/edit/{id}(id=${pacient.idPacient})}" class="edit-btn">Editează</a>
                 </td>
             </tr>

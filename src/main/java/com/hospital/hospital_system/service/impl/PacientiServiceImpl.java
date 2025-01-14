@@ -113,5 +113,50 @@ public class PacientiServiceImpl implements PacientiService {
                 .build();
     }
 
+    @Override
+    public List<PacientiDto> searchPacienti(String searchTerm) {
+        return List.of();
+    }
 
+    // Căutare pacienți după criterii multiple (searchTerm, gen, Rh, grupa de sânge)
+    @Override
+    public List<PacientiDto> searchPacienti(String searchTerm, String gen, String rh, String grupaSange) {
+        List<Pacienti> pacienti = pacientiRepository.findAll();  // Adaptează aici după structura bazei de date
+
+        return pacienti.stream()
+                .filter(pacient -> {
+                    boolean matchesSearchTerm = (searchTerm == null || searchTerm.isEmpty()) ||
+                            pacient.getNume().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                            pacient.getPrenume().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                            pacient.getCnp().contains(searchTerm) ||
+                            pacient.getAdresa().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                            String.valueOf(pacient.getTel()).contains(searchTerm) ||
+                            pacient.getEmail().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                            pacient.getGrupaSange().contains(searchTerm) ||
+                            pacient.getRh().toLowerCase().contains(searchTerm.toLowerCase());
+
+                    boolean matchesGen = (gen == null || gen.isEmpty() || pacient.getGen().equalsIgnoreCase(gen));
+                    boolean matchesRh = (rh == null || rh.isEmpty() || pacient.getRh().equalsIgnoreCase(rh));
+                    boolean matchesGrupaSange = (grupaSange == null || grupaSange.isEmpty() || pacient.getGrupaSange().equalsIgnoreCase(grupaSange));
+
+                    return matchesSearchTerm && matchesGen && matchesRh && matchesGrupaSange;
+                })
+                .map(this::mapToPacientiDto)
+                .collect(Collectors.toList());
+    }
+
+    private PacientiDto mapToPacientiDto(Pacienti pacient) {
+        PacientiDto pacientDto = new PacientiDto();
+        pacientDto.setIdPacient(pacient.getIdPacient());
+        pacientDto.setNume(pacient.getNume());
+        pacientDto.setPrenume(pacient.getPrenume());
+        pacientDto.setCnp(pacient.getCnp());
+        pacientDto.setAdresa(pacient.getAdresa());
+        pacientDto.setTel(pacient.getTel());
+        pacientDto.setEmail(pacient.getEmail());
+        pacientDto.setGrupaSange(pacient.getGrupaSange());
+        pacientDto.setRh(pacient.getRh());
+        pacientDto.setGen(pacient.getGen());
+        return pacientDto;
+    }
 }
