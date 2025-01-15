@@ -18,4 +18,7 @@ public interface PacientiService {
 
     // Căutare pacienți după criterii multiple (searchTerm, gen, Rh, grupa de sânge)
     List<PacientiDto> searchPacienti(String searchTerm, String gen, String rh, String grupaSange);
+
+
+    List<PacientiDto> filterPacienti(String gen, String rh, String grupaSange);
 }

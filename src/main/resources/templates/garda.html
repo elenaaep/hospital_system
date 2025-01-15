@@ -221,7 +221,7 @@
             <a href="/pacients">Vizualizare Pacienți</a>
             <a href="istoric_pacienti.html">Istoric Pacienți</a>
         </div>
-        <a href="garda.html" class="schedule">Adăugare Gardă</a>
+        <a href="/garda" class="schedule">Adăugare Gardă</a>
         <a href="contact.html">Contact</a>
     </div>
     <div class="spacer"></div>
@@ -264,51 +264,37 @@
             <button type="button" class="delete-button" onclick="deleteGarda()">Șterge Garda</button>
         </form>
     </div>
-    <div class="table-container">
-        <table id="patientsTable">
+    <div class="container">
+        <table class="table">
             <thead>
             <tr>
-            <th>ID Garda</th>
-            <th>ID Doctor</th>
-            <th>ID Asistent</th>
-            <th>Tip Personal</th>
-            <th>Data Început</th>
-            <th>Data Sfârșit</th>
-            <th>Număr Pacienți Îngrijiți</th>
-            <th>Consumabile Folosite</th>
+                <th>ID Garda</th>
+                <th>ID Doctor</th>
+                <th>ID Asistent</th>
+                <th>Tip Persoană</th>
+                <th>Data Început</th>
+                <th>Data Sfârșit</th>
+                <th>Nr. Pacienți Îngrijiți</th>
+                <th>Consumabile Folosite</th>
             </tr>
-        </thead>
-        <tbody id="gardaTableBody">
-        <!-- Datele vor fi populate din backend -->
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <tr th:each="garda : ${gardaList}">
+                <td th:text="${garda.idGarda}"></td>
+                <td th:text="${garda.idDoc}"></td>
+                <td th:text="${garda.idAsistent}"></td>
+                <td th:text="${garda.persTip}"></td>
+                <td th:text="${#dates.format(garda.dataInceput, 'dd/MM/yyyy')}"></td>
+                <td th:text="${#dates.format(garda.dataSfarsit, 'dd/MM/yyyy')}"></td>
+                <td th:text="${garda.nrPacientiIngrijiti}"></td>
+                <td th:text="${garda.consumabileFolosite}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 </div>
-<script>
-    document.getElementById('gardaForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        // Logica pentru adăugare sau modificare a gardă
-    });
-
-    function deleteGarda() {
-        // Logica pentru ștergerea unei gărzi
-    }
-
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
-
-    for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
-            }
-        });
-    }
-</script>
 
 </body>
 </html>

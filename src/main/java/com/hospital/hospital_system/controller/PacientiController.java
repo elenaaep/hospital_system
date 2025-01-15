@@ -50,8 +50,6 @@ public class PacientiController {
         }
     }
 
-
-
     @GetMapping("/new")
     public String showAddPacientForm(Model model) {
         model.addAttribute("pacient", new PacientiDto());

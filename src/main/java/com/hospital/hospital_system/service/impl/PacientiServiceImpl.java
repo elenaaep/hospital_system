@@ -121,7 +121,7 @@ public class PacientiServiceImpl implements PacientiService {
     // Căutare pacienți după criterii multiple (searchTerm, gen, Rh, grupa de sânge)
     @Override
     public List<PacientiDto> searchPacienti(String searchTerm, String gen, String rh, String grupaSange) {
-        List<Pacienti> pacienti = pacientiRepository.findAll();  // Adaptează aici după structura bazei de date
+        List<Pacienti> pacienti = pacientiRepository.findAll();  // Aici poți adapta în funcție de nevoi
 
         return pacienti.stream()
                 .filter(pacient -> {
@@ -159,4 +159,21 @@ public class PacientiServiceImpl implements PacientiService {
         pacientDto.setGen(pacient.getGen());
         return pacientDto;
     }
+
+    @Override
+    public List<PacientiDto> filterPacienti(String gen, String rh, String grupaSange) {
+        List<Pacienti> pacienti = pacientiRepository.findAll();  // Poți să adaugi aici un query personalizat pentru performanță
+
+        return pacienti.stream()
+                .filter(pacient -> {
+                    boolean matchesGen = (gen == null || gen.isEmpty() || pacient.getGen().equalsIgnoreCase(gen));
+                    boolean matchesRh = (rh == null || rh.isEmpty() || pacient.getRh().equalsIgnoreCase(rh));
+                    boolean matchesGrupaSange = (grupaSange == null || grupaSange.isEmpty() || pacient.getGrupaSange().equalsIgnoreCase(grupaSange));
+
+                    return matchesGen && matchesRh && matchesGrupaSange;
+                })
+                .map(this::mapToPacientiDto)
+                .collect(Collectors.toList());
+    }
+
 }

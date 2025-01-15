@@ -41,4 +41,19 @@ public class GardaServiceImpl implements GardaService {
                 .build();
         return gardaDto;
     }
+
+    @Override
+    public void addGarda(Garda garda) {
+        gardaRepository.save(garda); // Salvăm o nouă gardă în baza de date
+    }
+
+    @Override
+    public void editGarda(Garda garda) {
+        gardaRepository.save(garda); // Edităm gardă existentă în baza de date
+    }
+
+    @Override
+    public void deleteGarda(int id_garda) {
+        gardaRepository.deleteById(id_garda); // Ștergem gardă din baza de date
+    }
 }
