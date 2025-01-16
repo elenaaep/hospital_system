@@ -243,6 +243,28 @@
         }
 
 
+        .chart-container {
+            display: flex;   /* Folosește flexbox pentru a pune graficele pe același rând */
+            gap: 100px;       /* Spațiu între grafice */
+        }
+
+        #barChartContainer, #pieChartContainer {
+            text-align: center; /* Centrează titlurile și graficele */
+        }
+
+        h3 {
+            margin-bottom: 10px;  /* Spațiu între titlu și grafic */
+        }
+
+        canvas {
+            width: 600px;   /* Dimensiuni pentru grafice */
+            height: 300px;  /* Dimensiuni pentru grafice */
+        }
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -265,6 +287,9 @@
         <button type="submit">Ieșire</button>
     </form>
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="main-content">
     <h1>Lista Pacienților</h1>
@@ -336,8 +361,23 @@
             </tr>
             </tbody>
         </table>
+
+        <h2>Grafice pentru tratarea datelor pacienților </h2>
+
+        <div class="chart-container">
+            <div id="barChartContainer">
+                <h3>Vârsta medie pe gen</h3>
+                <canvas id="barChart"></canvas>
+            </div>
+            <div id="pieChartContainer">
+                <h3>Distribuție Rh și Grupa de sânge</h3>
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+
+
+
     </div>
-</div>
 <script>
     document.getElementById('exportPdfButton').addEventListener('click', function () {
         fetch('/exportPacienti')
@@ -363,5 +403,76 @@
             });
     });
 </script>
+
+<script>
+    // Fetch data for Bar Chart (Age by Gender)
+    fetch('/api/chart/gen-varsta')
+        .then(response => response.json())
+        .then(data => {
+            const ctxBar = document.getElementById('barChart').getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,  // Gender (e.g., 'M', 'F')
+                    datasets: [{
+                        label: 'Vârsta medie',
+                        data: data.data,  // Average age values
+                        backgroundColor: '#568203',  // Color for the bars
+                        borderColor: '#00561B',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching bar chart data:', error));
+
+    // Fetch data for Pie Chart (Rh and Blood Group Distribution)
+    fetch('/api/chart/rh-grupaSange')
+        .then(response => response.json())
+        .then(data => {
+            const ctxPie = document.getElementById('pieChart').getContext('2d');
+            new Chart(ctxPie, {
+                type: 'pie',
+                data: {
+                    labels: data.labels,  // Rh and Blood Group categories
+                    datasets: [{
+                        label: 'Distribuție Rh și Grupa de sânge',
+                        data: data.data,  // Count of each group
+                        backgroundColor: ['#568203', '#dab30a', '#e60000', '#00561B', '#cfa108'],  // Colors for the pie slices
+                        borderColor: '#ffffff',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching pie chart data:', error));
+</script>
+
+
+
+</div>
+
 </body>
 </html>

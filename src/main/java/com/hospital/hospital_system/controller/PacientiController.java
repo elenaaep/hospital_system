@@ -125,7 +125,6 @@ public class PacientiController {
                 .body(pdfBytes);
     }
 
-    // Endpoint pentru datele graficului Gen vs Vârstă
     @GetMapping("/api/chart/gen-varsta")
     @ResponseBody
     public Map<String, Object> getGenVarstaData() {
@@ -141,25 +140,25 @@ public class PacientiController {
         Map<String, Object> result = new HashMap<>();
         result.put("labels", genVarsta.keySet());
         result.put("data", genVarsta.values());
-        return result;  // Returnează datele pentru grafic
+        return result;
     }
 
-    // Endpoint pentru datele graficului Rh vs Grupa de Sânge
-    @GetMapping("/api/chart/rh-grupa")
+    @GetMapping("/api/chart/rh-grupaSange")
     @ResponseBody
-    public Map<String, Object> getRhGrupaData() {
+    public Map<String, Object> getRhGrupaSangeData() {
         List<PacientiDto> pacients = pacientiService.findAllPacienti();
 
-        // Grupăm după combinația Rh + grupa de sânge și calculăm numărul de pacienți
-        Map<String, Long> rhGrupa = pacients.stream()
+        // Grupăm pacienții după Rh și Grupa de sânge
+        Map<String, Long> rhGrupaSange = pacients.stream()
                 .collect(Collectors.groupingBy(
-                        pacient -> pacient.getRh() + " - " + pacient.getGrupaSange(),
+                        p -> p.getRh() + " - " + p.getGrupaSange(),
                         Collectors.counting()
                 ));
 
         Map<String, Object> result = new HashMap<>();
-        result.put("labels", rhGrupa.keySet());
-        result.put("data", rhGrupa.values());
-        return result;  // Returnează datele pentru grafic
+        result.put("labels", rhGrupaSange.keySet());
+        result.put("data", rhGrupaSange.values());
+        return result;
     }
+
 }
