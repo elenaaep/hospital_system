@@ -1,48 +1,134 @@
 package com.hospital.hospital_system.controller;
 
 import com.hospital.hospital_system.dto.GardaDto;
+import com.hospital.hospital_system.dto.PacientiDto;
 import com.hospital.hospital_system.models.Garda;
-import com.hospital.hospital_system.service.GardaService; // Adaugă importul pentru serviciu
+import com.hospital.hospital_system.service.GardaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 public class GardaController {
 
+    private static final Logger logger = LoggerFactory.getLogger(GardaController.class);
+    private final GardaService gardaService;
+
     @Autowired
-    private GardaService gardaService; // Injectează serviciul GardaService
+    public GardaController(GardaService gardaService) {
+        this.gardaService = gardaService;
+    }
 
+    // Afișarea listei de gărzi cu posibilitatea de filtrare
     @GetMapping("/garda")
-    public String showGardaList(Model model) {
-        List<GardaDto> gardaList = gardaService.findAllGarda();  // Obține lista de gărzi
-        System.out.println(gardaList);  // Verifică dacă lista conține date corecte
-        model.addAttribute("gardaList", gardaList);
-        return "garda";  // Numele fișierului garda.html
+    public String getGardaPage(@RequestParam(value = "search", required = false) String searchTerm,
+                               @RequestParam(value = "idDoc", required = false) Integer idDoc,
+                               @RequestParam(value = "idAsistent", required = false) Integer idAsistent,
+                               @RequestParam(value = "persTip", required = false) String persTip,
+                               Model model) {
+        try {
+            List<GardaDto> gardaList;  // schimbă numele variabilei pentru consistență
+            if (searchTerm != null && !searchTerm.isEmpty() || idDoc != null || idAsistent != null || persTip != null) {
+                gardaList = gardaService.searchGarda(searchTerm, idDoc, idAsistent, persTip);
+            } else {
+                gardaList = gardaService.findAllGarda();
+            }
+            model.addAttribute("gardaList", gardaList);  // actualizează modelul cu gardaList
+            model.addAttribute("searchTerm", searchTerm);
+            model.addAttribute("idDoc", idDoc);
+            model.addAttribute("idAsistent", idAsistent);
+            model.addAttribute("persTip", persTip);
+            logger.info("Accessing /garda endpoint: Retrieved {} garda", gardaList.size());
+            return "garda";  // te asiguri că view-ul este corect
+        } catch (Exception e) {
+            logger.error("Error occurred while retrieving garda", e);
+            model.addAttribute("error", "An error occurred while retrieving the list of garda.");
+            return "error";
+        }
     }
 
-    // Adăugare gardă
+    // Formular pentru adăugarea unei noi gărzi
+    @GetMapping("/garda/new")
+    public String showAddGardaForm(Model model) {
+        model.addAttribute("garda", new GardaDto());
+        return "new-garda";
+    }
+
+//    @PostMapping("/garda/add")
+//    public String addGarda(@ModelAttribute GardaDto gardaDto) {
+//        gardaService.addGarda(gardaDto);
+//        return "redirect:/garda";
+//    }
+
     @PostMapping("/garda/add")
-    public String addGarda(Garda garda) {
-        gardaService.addGarda(garda); // Folosește serviciul pentru adăugarea gărzii
-        return "redirect:/garda"; // După adăugarea gărzii, se face redirect la pagina principală
+    public String addGarda(@ModelAttribute GardaDto gardaDto) {
+        try {
+            // Dacă consumabilele folosite sunt nule, setează o valoare default
+            if (gardaDto.getConsumabileFolosite() == null) {
+                gardaDto.setConsumabileFolosite("N/A");  // Exemplu de valoare default
+            }
+
+            gardaService.addGarda(gardaDto);  // Adaugă garda folosind DTO-ul
+            return "redirect:/garda";  // Redirecționează după adăugare
+        } catch (Exception e) {
+            logger.error("Error adding new garda: {}", e.getMessage());
+            return "error";  // Răspuns în caz de eroare
+        }
     }
 
-    // Editare gardă
-    @PostMapping("/garda/edit")
-    public String editGarda(Garda garda) {
-        gardaService.editGarda(garda); // Folosește serviciul pentru editarea gărzii
-        return "redirect:/garda"; // După editarea gărzii, se face redirect la pagina principală
+
+
+    // Formular pentru editarea unei gărzi
+    @GetMapping("/garda/edit/{id}")
+    public String showEditGardaForm(@PathVariable int id, Model model) {
+        GardaDto gardaDto = gardaService.findById(id);
+        model.addAttribute("garda", gardaDto);
+        return "edit-garda";
     }
 
-    // Ștergere gardă
-    @PostMapping("/garda/delete")
-    public String deleteGarda(int id_garda) {
-        gardaService.deleteGarda(id_garda); // Folosește serviciul pentru ștergerea gărzii
-        return "redirect:/garda"; // După ștergerea gărzii, se face redirect la pagina principală
+    // Actualizarea unei gărzi existente
+    @PostMapping("/garda/update/{id}")
+    public String updateGarda(@PathVariable int id, @ModelAttribute GardaDto gardaDto) {
+        try {
+            gardaService.updateGarda(id, gardaDto); // actualizează garda folosind DTO-ul
+            return "redirect:/garda"; // Redirecționează după actualizare
+        } catch (Exception e) {
+            logger.error("Error updating garda with id {}: {}", id, e.getMessage());
+            return "error";  // Răspuns în caz de eroare
+        }
     }
+
+    // Ștergerea unei gărzi
+    @GetMapping("/garda/delete/{id}")
+    public String deleteGarda(@PathVariable int id, Model model) {
+        try {
+            gardaService.deleteGarda(id);
+            return "redirect:/garda";  // Dacă totul merge bine, redirecționează către lista de gărzi
+        } catch (Exception e) {
+            logger.error("Error occurred while deleting garda with ID {}: {}", id, e.getMessage());
+            model.addAttribute("error", "An error occurred while deleting the garda. Please try again later.");
+            return "error";  // Afișează o pagină de eroare personalizată
+        }
+    }
+
+
+
+    // Metoda care salvează garda
+    @PostMapping("/save")
+    public String saveGarda(@ModelAttribute("garda") Garda garda, Model model) {
+        try {
+            gardaService.saveGarda(garda);
+            return "redirect:/garda";  // Redirecționează către pagina de vizualizare gărzi
+        } catch (Exception e) {
+            model.addAttribute("error", "A apărut o eroare la salvarea gărzii.");
+            return "garda-form";  // Dacă există o eroare, rămâne pe aceeași pagină
+        }
+    }
+
+
 }

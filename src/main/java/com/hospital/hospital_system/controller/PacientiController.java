@@ -1,14 +1,23 @@
 package com.hospital.hospital_system.controller;
 
 import com.hospital.hospital_system.dto.PacientiDto;
+import com.hospital.hospital_system.models.Pacienti;
+import com.hospital.hospital_system.repository.PacientiRepository;
+import com.hospital.hospital_system.service.DocumentException;
 import com.hospital.hospital_system.service.PacientiService;
+import com.hospital.hospital_system.service.PdfExportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,6 +29,7 @@ public class PacientiController {
 
     @Autowired
     public PacientiController(PacientiService pacientiService) {
+
         this.pacientiService = pacientiService;
     }
 
@@ -88,7 +98,27 @@ public class PacientiController {
         }
     }
 
+    @Autowired
+    private PdfExportService pdfExportService;
 
+    @Autowired
+    private PacientiRepository pacientRepository;
+
+    @GetMapping("/exportPacienti")
+    public ResponseEntity<byte[]> exportPacienti() throws IOException, DocumentException {
+
+        System.out.println("Export PDF requested");
+        List<PacientiDto> pacienti = pacientiService.findAllPacienti();
+        ByteArrayOutputStream pdfStream = pdfExportService.generatePacientTablePdf(pacienti);
+        byte[] pdfBytes = pdfStream.toByteArray();
+
+        System.out.println("PDF generated successfully");
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=PacientiList.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
+    }
 
     // Endpoint pentru datele graficului Gen vs Vârstă
     @GetMapping("/api/chart/gen-varsta")

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editează Gardă</title>
+    <style>
+        /* General reset */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container */
+        form {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Title styling */
+        h1 {
+            text-align: center;
+            color: #00561B;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #568203;
+            padding-bottom: 10px;
+        }
+
+        /* Form labels and inputs */
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #568203;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cfa108;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus {
+            border-color: #dab30a;
+            outline: none;
+        }
+
+        /* Submit button */
+        button[type="submit"] {
+            background-color: #00561B;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #568203;
+        }
+    </style>
+</head>
+<body>
+<form th:action="@{/garda/update/{id}(id=${garda.idGarda})}" method="post" th:object="${garda}">
+    <h1>Editează Gardă</h1>
+
+    <label for="dataInceput">Data Început:</label>
+    <input type="date" id="dataInceput" th:field="*{dataInceput}" required>
+
+    <label for="dataSfarsit">Data Sfârșit:</label>
+    <input type="date" id="dataSfarsit" th:field="*{dataSfarsit}" required>
+
+    <label for="consumabileFolosite">Consumabile Folosite:</label>
+    <input type="text" id="consumabileFolosite" th:field="*{consumabileFolosite}" required>
+
+    <label for="nrPacientiIngrijiti">Număr Pacienți Îngrijiți:</label>
+    <input type="number" id="nrPacientiIngrijiti" th:field="*{nrPacientiIngrijiti}" required>
+
+    <label for="persTip">Tipul Persoanei:</label>
+    <input type="text" id="persTip" th:field="*{persTip}" required>
+
+    <label for="idAsistent">ID Asistent (opțional):</label>
+    <input type="number" id="idAsistent" th:field="*{idAsistent}">
+
+    <label for="idDoc">ID Doctor (opțional):</label>
+    <input type="number" id="idDoc" th:field="*{idDoc}">
+
+    <button type="submit">Salvează</button>
+</form>
+</body>
+</html>

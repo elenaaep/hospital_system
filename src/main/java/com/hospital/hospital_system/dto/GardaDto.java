@@ -17,4 +17,18 @@ public class GardaDto {
     private Date dataSfarsit;
     private int nrPacientiIngrijiti;
     private String consumabileFolosite;
+
+    public GardaDto(int idGarda, Integer idDoc, Integer idAsistent, String persTip, java.sql.Date dataInceput,
+                    java.sql.Date dataSfarsit, int nrPacientiIngrijiti, String consumabileFolosite) {
+        this.idGarda = idGarda;
+        this.idDoc = idDoc;
+        this.idAsistent = idAsistent;
+        this.persTip = persTip;
+        this.dataInceput = dataInceput;
+        this.dataSfarsit = dataSfarsit;
+        this.nrPacientiIngrijiti = nrPacientiIngrijiti;
+        this.consumabileFolosite = consumabileFolosite;
+    }
+    public GardaDto() {}
+
 }

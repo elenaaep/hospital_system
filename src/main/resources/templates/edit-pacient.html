@@ -4,31 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editează Pacient</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Title styling */
+        h1 {
+            text-align: center;
+            color: #00561B;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #568203;
+            padding-bottom: 10px;
+        }
+
+        /* Form labels and inputs */
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #568203;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="radio"],
+        select {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cfa108;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            width: auto;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        select:focus,
+        input[type="radio"]:focus {
+            border-color: #dab30a;
+            outline: none;
+        }
+
+        /* Submit button */
+        button[type="submit"] {
+            background-color: #00561B;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #568203;
+        }
+
+        /* Grouping radio buttons */
+        .radio-group {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 <body>
-<h1>Editează Pacient</h1>
-<form th:action="@{/pacienti/update/{id}(id=${pacient.idPacient})}" method="post">
-    <label for="nume">Nume:</label>
-    <input type="text" id="nume" name="nume" th:value="${pacient.nume}" required>
-    <label for="prenume">Prenume:</label>
-    <input type="text" id="prenume" name="prenume" th:value="${pacient.prenume}" required>
-    <label for="cnp">CNP:</label>
-    <input type="text" id="cnp" name="cnp" th:value="${pacient.cnp}" required>
-    <label for="dataNasterii">Data Nașterii:</label>
-    <input type="date" id="dataNasterii" name="dataNasterii" th:value="${pacient.dataNasterii}" required>
-    <label for="gen">Gen:</label>
-    <select id="gen" name="gen" th:value="${pacient.gen}">
-        <option value="Masculin">Masculin</option>
-        <option value="Feminin">Feminin</option>
-    </select>
-    <label for="grupaSange">Grupa Sanguină:</label>
-    <input type="text" id="grupaSange" name="grupaSange" th:value="${pacient.grupaSange}">
-    <label for="rh">RH:</label>
-    <select id="rh" name="rh" th:value="${pacient.rh}">
-        <option value="Pozitiv">Pozitiv</option>
-        <option value="Negativ">Negativ</option>
-    </select>
-    <button type="submit">Actualizează</button>
-</form>
+<div class="container">
+    <h1>Editează Pacient</h1>
+    <form th:action="@{/pacienti/update/{id}(id=${pacient.idPacient})}" method="post">
+        <label for="nume">Nume:</label>
+        <input type="text" id="nume" name="nume" th:value="${pacient.nume}" required>
+
+        <label for="prenume">Prenume:</label>
+        <input type="text" id="prenume" name="prenume" th:value="${pacient.prenume}" required>
+
+        <label for="cnp">CNP:</label>
+        <input type="text" id="cnp" name="cnp" th:value="${pacient.cnp}" required>
+
+        <label for="dataNasterii">Data Nașterii:</label>
+        <input type="date" id="dataNasterii" name="dataNasterii" th:value="${pacient.dataNasterii}" required>
+
+        <label>Gen:</label>
+        <div class="radio-group">
+            <label for="masculin">
+                <input type="radio" id="masculin" name="gen" value="Masculin" th:checked="${pacient.gen == 'Masculin'}"> Masculin
+            </label>
+            <label for="feminin">
+                <input type="radio" id="feminin" name="gen" value="Feminin" th:checked="${pacient.gen == 'Feminin'}"> Feminin
+            </label>
+        </div>
+
+        <label>Grupa Sanguină:</label>
+        <div class="radio-group">
+            <label for="grupa0">
+                <input type="radio" id="grupa0" name="grupaSange" value="0" th:checked="${pacient.grupaSange == '0'}"> 0
+            </label>
+            <label for="grupaA">
+                <input type="radio" id="grupaA" name="grupaSange" value="A" th:checked="${pacient.grupaSange == 'A'}"> A
+            </label>
+            <label for="grupaB">
+                <input type="radio" id="grupaB" name="grupaSange" value="B" th:checked="${pacient.grupaSange == 'B'}"> B
+            </label>
+            <label for="grupaAB">
+                <input type="radio" id="grupaAB" name="grupaSange" value="AB" th:checked="${pacient.grupaSange == 'AB'}"> AB
+            </label>
+        </div>
+
+        <label>RH:</label>
+        <div class="radio-group">
+            <label for="rhPozitiv">
+                <input type="radio" id="rhPozitiv" name="rh" value="Pozitiv" th:checked="${pacient.rh == 'Pozitiv'}"> Pozitiv
+            </label>
+            <label for="rhNegativ">
+                <input type="radio" id="rhNegativ" name="rh" value="Negativ" th:checked="${pacient.rh == 'Negativ'}"> Negativ
+            </label>
+        </div>
+
+        <button type="submit">Actualizează</button>
+    </form>
+</div>
 </body>
 </html>

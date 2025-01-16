@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouă Gardă</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Title styling */
+        h2 {
+            text-align: center;
+            color: #00561B;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #568203;
+            padding-bottom: 10px;
+        }
+
+        /* Form labels and inputs */
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #568203;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cfa108;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus {
+            border-color: #dab30a;
+            outline: none;
+        }
+
+        /* Submit button */
+        button[type="submit"] {
+            background-color: #00561B;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #568203;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Adăugați o Nouă Gardă</h2>
+    <form action="/garda/add" method="POST">
+        <label for="id_garda">ID Gardă:</label>
+        <input type="number" id="id_garda" name="id_garda" required>
+
+        <label for="id_doc">ID Doctor:</label>
+        <input type="number" id="id_doc" name="id_doc">
+
+        <label for="id_asistent">ID Asistent:</label>
+        <input type="number" id="id_asistent" name="id_asistent">
+
+        <label for="pers_tip">Tip Persoană:</label>
+        <input type="text" id="pers_tip" name="pers_tip" required>
+
+        <label for="data_inceput">Data Început:</label>
+        <input type="date" id="data_inceput" name="data_inceput" required>
+
+        <label for="data_sfarsit">Data Sfârșit:</label>
+        <input type="date" id="data_sfarsit" name="data_sfarsit" required>
+
+        <label for="nr_pacienti_ingrijiti">Număr Pacienți Îngrijiți:</label>
+        <input type="number" id="nr_pacienti_ingrijiti" name="nr_pacienti_ingrijiti" required>
+
+        <label for="consumabile_folosite">Consumabile Folosite:</label>
+        <input type="text" id="consumabile_folosite" name="consumabile_folosite" required>
+
+        <button type="submit">Adaugă Gardă</button>
+    </form>
+</div>
+</body>
+</html>

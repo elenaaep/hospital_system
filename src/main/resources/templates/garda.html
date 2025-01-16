@@ -170,43 +170,81 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
+        /* Stil pentru butonul de adăugare gardă */
         .add-button {
-            background-color: #28a745; /* Verde */
+            background-color: #28a745; /* Verde pentru un aspect pozitiv */
             color: white;
+            padding: 12px 15px; /* Adăugat mai mult spațiu pentru buton */
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            width: 150px; /* Lățime fixă pentru buton */
+            margin-top: 20px; /* Spațiu deasupra butonului */
+            display: block;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
-        .modify-button {
-            background-color: #dab30a; /* Culoarea inițială */
-            color: white;
+        .add-button:hover {
+            background-color: #218838; /* Verde mai închis la hover */
+            transform: scale(1.05); /* Mărire la hover pentru efect de interacțiune */
         }
 
-        .delete-button {
+        .add-button:active {
+            background-color: #1e7e34; /* Culoare mai închisă la apăsare */
+            transform: scale(1); /* Revine la dimensiunea originală */
+        }
+
+        /* Stil pentru butoanele de acțiune (Delete și Edit) */
+        .delete-btn,
+        .edit-btn {
+            padding: 8px 15px;
+            font-size: 16px;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-right: 10px;
+        }
+
+        /* Stil pentru butonul de delete */
+        .delete-btn {
             background-color: #e60000; /* Roșu */
-            color: white;
         }
 
-        button:hover {
-            opacity: 0.9;
+        .delete-btn:hover {
+            background-color: #c70000; /* Roșu mai închis la hover */
+            transform: scale(1.05); /* Mărire la hover */
         }
 
-        /* Flexbox pentru aliniere */
-        .form-actions {
-            display: flex;
-            justify-content: flex-start; /* Butoanele să fie aliniate la stânga */
-            margin-top: 20px;
+        .delete-btn:active {
+            background-color: #b30000; /* Roșu și mai închis la apăsare */
+            transform: scale(1); /* Revine la dimensiunea originală */
         }
 
-        /* Adaugă spațiere între containere */
-        .form-container {
-            margin-bottom: 30px; /* Spațiere între formular și tabel */
+        /* Stil pentru butonul de edit */
+        .edit-btn {
+            background-color: #dab30a; /* Culoarea galbenă pentru editare */
         }
 
-        .table-container {
-            margin-top: 30px; /* Dacă preferi să aplici spațierea la tabel */
+        .edit-btn:hover {
+            background-color: #a68a08; /* Galben mai închis la hover */
+            transform: scale(1.05); /* Mărire la hover */
         }
 
+        .edit-btn:active {
+            background-color: #8c7607; /* Galben și mai închis la apăsare */
+            transform: scale(1); /* Revine la dimensiunea originală */
 
+            button:hover {
+                opacity: 0.9;
+            }
+
+        }
     </style>
 </head>
 <body>
@@ -222,7 +260,7 @@
             <a href="istoric_pacienti.html">Istoric Pacienți</a>
         </div>
         <a href="/garda" class="schedule">Adăugare Gardă</a>
-        <a href="contact.html">Contact</a>
+        <a href="/contact">Contact</a>
     </div>
     <div class="spacer"></div>
     <form action="/logout" method="post">
@@ -233,37 +271,45 @@
 
 <div class="main-content">
     <h1>Gestionare Garda</h1>
-    <div class="form-container">
-        <form id="gardaForm">
-            <label for="id_garda">ID Garda</label>
-            <input type="number" id="id_garda" name="id_garda" required>
 
-            <label for="id_doc">ID Doctor</label>
-            <input type="number" id="id_doc" name="id_doc">
+<!--    &lt;!&ndash; Buton pentru a deschide formularul de adăugare &ndash;&gt;-->
+<!--    <button id="showAddFormBtn" class="add-button">Adaugă Gardă</button>-->
 
-            <label for="id_asistent">ID Asistent</label>
-            <input type="number" id="id_asistent" name="id_asistent">
+<!--    &lt;!&ndash; Formularul de adăugare gardă &ndash;&gt;-->
+<!--    <div id="addFormContainer" class="form-container" style="display: none;">-->
+<!--        <form th:action="@{/garda/save}" method="post" id="gardaForm">-->
 
-            <label for="pers_tip">Tip Personal</label>
-            <input type="text" id="pers_tip" name="pers_tip" required>
+<!--            <label for="id_garda">ID Garda</label>-->
+<!--            <input type="number" id="id_garda" name="id_garda" required>-->
 
-            <label for="data_inceput">Data Început</label>
-            <input type="date" id="data_inceput" name="data_inceput" required>
+<!--            <label for="id_doc">ID Doctor</label>-->
+<!--            <input type="number" id="id_doc" name="id_doc" required>-->
 
-            <label for="data_sfarsit">Data Sfârșit</label>
-            <input type="date" id="data_sfarsit" name="data_sfarsit" required>
+<!--            <label for="id_asistent">ID Asistent</label>-->
+<!--            <input type="number" id="id_asistent" name="id_asistent" required>-->
 
-            <label for="nr_pacienti_ingrijiti">Număr Pacienți Îngrijiți</label>
-            <input type="number" id="nr_pacienti_ingrijiti" name="nr_pacienti_ingrijiti" required>
+<!--            <label for="pers_tip">Tip Personal</label>-->
+<!--            <input type="text" id="pers_tip" name="pers_tip" required>-->
 
-            <label for="consumabile_folosite">Consumabile Folosite</label>
-            <input type="text" id="consumabile_folosite" name="consumabile_folosite" required>
+<!--            <label for="data_inceput">Data Început</label>-->
+<!--            <input type="date" id="data_inceput" name="data_inceput" required>-->
 
-            <button type="submit" class="add-button">Adaugă Garda</button>
-            <button type="submit" class="modify-button">Modifică Garda</button>
-            <button type="button" class="delete-button" onclick="deleteGarda()">Șterge Garda</button>
-        </form>
-    </div>
+<!--            <label for="data_sfarsit">Data Sfârșit</label>-->
+<!--            <input type="date" id="data_sfarsit" name="data_sfarsit" required>-->
+
+<!--            <label for="nr_pacienti_ingrijiti">Număr Pacienți Îngrijiți</label>-->
+<!--            <input type="number" id="nr_pacienti_ingrijiti" name="nr_pacienti_ingrijiti" required>-->
+
+<!--            <label for="consumabile_folosite">Consumabile Folosite</label>-->
+<!--            <input type="text" id="consumabile_folosite" name="consumabile_folosite" required>-->
+
+<!--            <button type="submit" class="add-button">Salvează Garda</button>-->
+<!--            <button type="button" class="modify-button" id="cancelAddFormBtn">Anulează</button>-->
+<!--        </form>-->
+<!--    </div>-->
+
+    <a href="/garda/new" class="add-button">Adaugă Garda</a>
+    <!-- Tabelul cu gărzi existente -->
     <div class="container">
         <table class="table">
             <thead>
@@ -276,6 +322,7 @@
                 <th>Data Sfârșit</th>
                 <th>Nr. Pacienți Îngrijiți</th>
                 <th>Consumabile Folosite</th>
+                <th>Acțiuni</th>
             </tr>
             </thead>
             <tbody>
@@ -288,13 +335,28 @@
                 <td th:text="${#dates.format(garda.dataSfarsit, 'dd/MM/yyyy')}"></td>
                 <td th:text="${garda.nrPacientiIngrijiti}"></td>
                 <td th:text="${garda.consumabileFolosite}"></td>
+                <td>
+                    <!-- Link pentru ștergere -->
+                    <a th:href="@{/garda/delete/{id}(id=${garda.idGarda})}" class="delete-btn">Șterge</a>
+
+                    <!-- Link pentru editare -->
+                    <a th:href="@{/garda/edit/{id}(id=${garda.idGarda})}" class="edit-btn">Editează</a>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
 
 </div>
-</div>
 
-</body>
-</html>
+<script>
+    // Afișează formularul de adăugare
+    document.getElementById('showAddFormBtn').addEventListener('click', function() {
+        document.getElementById('addFormContainer').style.display = 'block';
+    });
+
+    // Anulează formularul de adăugare
+    document.getElementById('cancelAddFormBtn').addEventListener('click', function() {
+        document.getElementById('addFormContainer').style.display = 'none';
+    });
+</script>
