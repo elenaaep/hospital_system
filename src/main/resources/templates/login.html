@@ -142,6 +142,10 @@
             };
         </script>
 
+        <!-- Afișează mesajul de succes dacă există -->
+        <div th:if="${successMessage}" class="message">
+            <p th:text="${successMessage}"></p>
+        </div>
 
         <div th:if="${param.error}">
             <p style="color:red;">Invalid username or password</p>

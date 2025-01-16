@@ -1,6 +1,7 @@
 package com.hospital.hospital_system.service;
 
 import com.hospital.hospital_system.dto.PacientiDto;
+import com.hospital.hospital_system.models.Pacienti;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,5 @@ public interface PacientiService {
     // Căutare pacienți după criterii multiple (searchTerm, gen, Rh, grupa de sânge)
     List<PacientiDto> searchPacienti(String searchTerm, String gen, String rh, String grupaSange);
 
-
-    List<PacientiDto> filterPacienti(String gen, String rh, String grupaSange);
+    List<Pacienti> filterPacienti(String search, String gen, String rh, String grupaSange);
 }

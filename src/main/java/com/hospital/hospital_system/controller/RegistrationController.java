@@ -1,6 +1,8 @@
 package com.hospital.hospital_system.controller;
 
+import com.hospital.hospital_system.models.Pacienti;
 import com.hospital.hospital_system.models.User;
+import com.hospital.hospital_system.repository.PacientiRepository;
 import com.hospital.hospital_system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Date;
+
 @Controller
 public class RegistrationController {
 
@@ -18,6 +22,8 @@ public class RegistrationController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PacientiRepository pacientiRepository;
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -28,31 +34,40 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String handleRegistration(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password,
-            @RequestParam("name") String name,
-            @RequestParam("role") String role,
+            @RequestParam("nume") String nume,
+            @RequestParam("prenume") String prenume,
+            @RequestParam("cnp") String cnp,
+            @RequestParam("data_nasterii") String dataNasterii,
+            @RequestParam("gen") String gen,
+            @RequestParam("varsta") Integer varsta,
+            @RequestParam("adresa") String adresa,
+            @RequestParam("tel") String telefon,
+            @RequestParam("email") String email,
+            @RequestParam("grupa_sange") String grupaSange,
+            @RequestParam("rh") String rh,
             Model model) {
 
-        // Verificăm dacă username-ul este deja folosit
-        if (userRepository.findByUsername(username).isPresent()) {
-            model.addAttribute("error", true);
-            model.addAttribute("message", "Username already exists");
-            return "register";
-        }
+        // Creăm un nou pacient cu datele primite din formular
+        Pacienti pacient = new Pacienti();
+        pacient.setNume(nume);
+        pacient.setPrenume(prenume);
+        pacient.setCnp(cnp);
+        pacient.setDataNasterii(Date.valueOf(dataNasterii));
+        pacient.setGen(gen);
+        pacient.setVarsta(varsta);
+        pacient.setAdresa(adresa);
+        pacient.setTel(Integer.parseInt(telefon));
+        pacient.setEmail(email);
+        pacient.setGrupaSange(grupaSange);
+        pacient.setRh(rh);
 
-        String encodedPassword = passwordEncoder.encode(password);
+        // Salvăm pacientul în baza de date
+        pacientiRepository.save(pacient);
 
-        System.out.println("Original Password: " + password);
-        System.out.println("Encoded Password: " + encodedPassword);
+        // Setăm mesajul de succes în sesiune
+        model.addAttribute("successMessage", "Contul a fost creat cu succes! Te poți autentifica acum.");
 
-        User newUser = new User();
-        newUser.setUsername(username);
-        newUser.setParola(encodedPassword);
-        newUser.setUtip(role);
-
-        userRepository.save(newUser);
-
-        return "redirect:/login";
+        // Redirecționăm către pagina de login
+        return "redirect:/login"; // Redirecționează către pagina de login
     }
 }

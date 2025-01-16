@@ -1,16 +1,24 @@
 package com.hospital.hospital_system.controller;
 
 import com.hospital.hospital_system.dto.GardaDto;
-import com.hospital.hospital_system.dto.PacientiDto;
 import com.hospital.hospital_system.models.Garda;
+import com.hospital.hospital_system.service.DocumentException;
 import com.hospital.hospital_system.service.GardaService;
+import com.hospital.hospital_system.service.PdfExportService;
+import com.opencsv.CSVWriter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -131,4 +139,56 @@ public class GardaController {
     }
 
 
+    @GetMapping("/garda/export")
+    public void exportGardaData(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=garda_data.csv");
+
+        List<GardaDto> gardaList = gardaService.findAllGarda();
+
+        try (CSVWriter writer = new CSVWriter(response.getWriter())) {
+            String[] header = {"ID Garda", "ID Doctor", "ID Asistent", "Tip Persoană", "Data Început", "Data Sfârșit", "Nr. Pacienți Îngrijiți", "Consumabile Folosite"};
+            writer.writeNext(header);
+
+            for (GardaDto garda : gardaList) {
+                String[] data = {
+                        String.valueOf(garda.getIdGarda()),
+                        String.valueOf(garda.getIdDoc()),
+                        String.valueOf(garda.getIdAsistent()),
+                        garda.getPersTip(),
+                        garda.getDataInceput().toString(),
+                        garda.getDataSfarsit().toString(),
+                        String.valueOf(garda.getNrPacientiIngrijiti()),
+                        garda.getConsumabileFolosite()
+                };
+                writer.writeNext(data);
+            }
+        }
+    }
+
+    @Autowired
+    private PdfExportService pdfExportService;
+
+    @GetMapping("/exportGarda")
+    public ResponseEntity<byte[]> exportGarda() throws IOException, DocumentException {
+        logger.info("Export PDF requested for Garda"); // Log pentru debugging
+
+        // Obținem lista de gărzi din serviciu
+        List<GardaDto> gardaList = gardaService.findAllGarda();
+
+        // Generăm fișierul PDF cu lista de gărzi
+
+        ByteArrayOutputStream pdfStream = pdfExportService.generateGardaTablePdf(gardaList);
+
+        // Transformăm în byte array pentru a trimite ca răspuns
+        byte[] pdfBytes = pdfStream.toByteArray();
+
+        logger.info("PDF generated successfully for Garda");
+
+        // Returnăm PDF-ul ca răspuns cu header-ul necesar pentru descărcare
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=GardaList.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
+    }
 }

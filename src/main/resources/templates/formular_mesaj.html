@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formular Mesaj</title>
-    <link rel="stylesheet" href="path_to_your_styles.css" />
 </head>
-
 <body>
 <h2>Formular Trimitere Mesaj</h2>
 <form action="/mesaje" method="post">
@@ -15,15 +13,9 @@
         <input type="text" id="id_doctor" name="id_doctor" required>
     </div>
     <div>
+        <label for="id_pacient">Pacient:</label>
         <select id="id_pacient" name="id_pacient">
             <option th:each="pacient : ${pacienti}" th:value="${pacient.id}" th:text="${pacient.nume}"></option>
-        </select>
-
-
-            <!-- Aici vor apărea opțiunile pentru pacienți din baza de date -->
-            <th:block th:each="pacient : ${pacienti}">
-                <option th:value="${pacient.id}" th:text="${pacient.nume}"></option>
-            </th:block>
         </select>
     </div>
     <div>

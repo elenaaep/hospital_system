@@ -1,5 +1,6 @@
 package com.hospital.hospital_system.service;
 
+import com.hospital.hospital_system.dto.GardaDto;
 import com.hospital.hospital_system.dto.PacientiDto;
 import com.hospital.hospital_system.models.Pacienti;
 import com.itextpdf.layout.element.Paragraph;
@@ -72,5 +73,50 @@ public class PdfExportService {
 
         // Returnarea fișierului PDF generat
         return byteArrayOutputStream;
+    }
+
+    // Funcția care generează PDF-ul pentru lista de gărzi
+    public ByteArrayOutputStream generateGardaTablePdf(List<GardaDto> gardaList) throws DocumentException, IOException {
+        ByteArrayOutputStream pdfStream = new ByteArrayOutputStream();
+
+        // Creăm PdfWriter pentru a scrie în ByteArrayOutputStream
+        PdfWriter writer = new PdfWriter(pdfStream);
+
+        // Creăm obiectul PdfDocument
+        PdfDocument pdfDocument = new PdfDocument(writer);
+
+        // Creăm Document pentru a adăuga elemente
+        Document document = new Document(pdfDocument);
+
+        // Creăm tabelul cu 8 coloane (în funcție de structura gărzii)
+        Table table = new Table(8);
+        table.addCell("ID Garda");
+        table.addCell("ID Doctor");
+        table.addCell("ID Asistent");
+        table.addCell("Tip Persoană");
+        table.addCell("Data Început");
+        table.addCell("Data Sfârșit");
+        table.addCell("Nr. Pacienți Îngrijiți");
+        table.addCell("Consumabile Folosite");
+
+        // Iterăm prin lista de gărzi și adăugăm datele în tabel
+        for (GardaDto garda : gardaList) {
+            table.addCell(String.valueOf(garda.getIdGarda()));
+            table.addCell(String.valueOf(garda.getIdDoc()));
+            table.addCell(String.valueOf(garda.getIdAsistent()));
+            table.addCell(garda.getPersTip());
+            table.addCell(garda.getDataInceput().toString());
+            table.addCell(garda.getDataSfarsit().toString());
+            table.addCell(String.valueOf(garda.getNrPacientiIngrijiti()));
+            table.addCell(garda.getConsumabileFolosite());
+        }
+
+        // Adăugăm tabelul în document
+        document.add(table);
+
+        // Închidem documentul pentru a finaliza PDF-ul
+        document.close();
+
+        return pdfStream;
     }
 }

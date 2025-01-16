@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.Optional;
 
@@ -21,12 +22,17 @@ public class LoginController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
-    public String showLoginForm(Model model) {
+    public String showLoginForm(Model model, WebRequest webRequest) {
+        // Verifică dacă există un mesaj de succes în sesiune
+        String successMessage = (String) webRequest.getAttribute("successMessage", WebRequest.SCOPE_SESSION);
+        if (successMessage != null) {
+            model.addAttribute("successMessage", successMessage); // Adaugă mesajul în model
+            webRequest.removeAttribute("successMessage", WebRequest.SCOPE_SESSION); // Șterge mesajul din sesiune
+        }
         model.addAttribute("error", false);
         model.addAttribute("message", "");
-        return "login"; // numele fișierului HTML Thymeleaf
+        return "login"; // numele fișierului HTML pentru login
     }
-
 
     @PostMapping("/login")
     public String handleLogin(
@@ -59,7 +65,4 @@ public class LoginController {
 
         return "redirect:/login";
     }
-
 }
-
-

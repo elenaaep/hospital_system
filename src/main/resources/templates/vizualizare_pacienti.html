@@ -258,7 +258,7 @@
             <a href="istoric_pacienti.html">Istoric Pacienți</a>
         </div>
         <a href="/garda" class="schedule">Adăugare Gardă</a>
-        <a href="c/contact">Contact</a>
+        <a href="/mesaje">Contact</a>
     </div>
     <div class="spacer"></div>
     <form action="/logout" method="post">
@@ -291,9 +291,9 @@
         </select>
         <button type="submit">Căutare</button>
         <a href="/new" class="add-button">Adaugă Pacient</a>
-        <a href="/pacienti/export-pdf">
-            <button class="add-button">Exportă în PDF</button>
-        </a>
+        <!-- Buton de export PDF -->
+<!--        <button id="exportPdfButton" class="add-button">Exportă în PDF</button>-->
+
     </form>
 
     <div class="container">
@@ -338,6 +338,30 @@
         </table>
     </div>
 </div>
-
+<script>
+    document.getElementById('exportPdfButton').addEventListener('click', function () {
+        fetch('/exportPacienti')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch PDF');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'PacientiList.pdf';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Error downloading PDF:', error);
+                alert('Eroare la descărcarea fișierului PDF.');
+            });
+    });
+</script>
 </body>
 </html>

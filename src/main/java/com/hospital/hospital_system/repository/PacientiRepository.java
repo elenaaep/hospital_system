@@ -24,5 +24,6 @@ public interface PacientiRepository extends JpaRepository<Pacienti, Integer> {
                                  @Param("rh") String rh,
                                  @Param("grupaSange") String grupaSange);
 
-
+    List<Pacienti> findByGenAndRhAndGrupaSange(String gen, String rh, String grupaSange);
 }
+

@@ -49,4 +49,6 @@ public class Pacienti {
 
     @Column(name = "rh", nullable = false)
     private String rh;
+
+
 }

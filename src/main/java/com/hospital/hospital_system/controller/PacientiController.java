@@ -1,23 +1,27 @@
 package com.hospital.hospital_system.controller;
 
 import com.hospital.hospital_system.dto.PacientiDto;
+
 import com.hospital.hospital_system.models.Pacienti;
 import com.hospital.hospital_system.repository.PacientiRepository;
 import com.hospital.hospital_system.service.DocumentException;
 import com.hospital.hospital_system.service.PacientiService;
 import com.hospital.hospital_system.service.PdfExportService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,6 +36,7 @@ public class PacientiController {
 
         this.pacientiService = pacientiService;
     }
+
 
     @GetMapping("/pacients")
     public String getPacientiPage(@RequestParam(value = "search", required = false) String searchTerm,
@@ -59,6 +64,7 @@ public class PacientiController {
             return "error";
         }
     }
+
 
     @GetMapping("/new")
     public String showAddPacientForm(Model model) {
@@ -104,15 +110,14 @@ public class PacientiController {
     @Autowired
     private PacientiRepository pacientRepository;
 
+
     @GetMapping("/exportPacienti")
     public ResponseEntity<byte[]> exportPacienti() throws IOException, DocumentException {
-
-        System.out.println("Export PDF requested");
+        logger.info("Export PDF requested"); // Log pentru debugging
         List<PacientiDto> pacienti = pacientiService.findAllPacienti();
         ByteArrayOutputStream pdfStream = pdfExportService.generatePacientTablePdf(pacienti);
         byte[] pdfBytes = pdfStream.toByteArray();
-
-        System.out.println("PDF generated successfully");
+        logger.info("PDF generated successfully");
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=PacientiList.pdf")

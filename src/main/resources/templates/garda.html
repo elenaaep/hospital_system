@@ -245,6 +245,27 @@
             }
 
         }
+
+        .btn-container {
+            display: grid;
+            grid-template-columns: repeat(3, auto); /* Trei coloane de lățime automată */
+            gap: 10px; /* Spațiu între butoane */
+            justify-content: left; /* Centrează pe orizontală */
+        }
+
+        .add-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .add-button:hover {
+            background-color: #45a049;
+        }
+
     </style>
 </head>
 <body>
@@ -260,7 +281,7 @@
             <a href="istoric_pacienti.html">Istoric Pacienți</a>
         </div>
         <a href="/garda" class="schedule">Adăugare Gardă</a>
-        <a href="/contact">Contact</a>
+        <a href="/mesaje">Contact</a>
     </div>
     <div class="spacer"></div>
     <form action="/logout" method="post">
@@ -272,43 +293,15 @@
 <div class="main-content">
     <h1>Gestionare Garda</h1>
 
-<!--    &lt;!&ndash; Buton pentru a deschide formularul de adăugare &ndash;&gt;-->
-<!--    <button id="showAddFormBtn" class="add-button">Adaugă Gardă</button>-->
+    <div class="btn-container">
+        <a href="/garda/new" class="add-button">Adaugă Garda</a>
+        <a href="/garda/export" class="add-button">Exportă în CSV</a>
+        <a href="/exportGarda" class="add-button">Exportă în PDF</a>
+    </div>
 
-<!--    &lt;!&ndash; Formularul de adăugare gardă &ndash;&gt;-->
-<!--    <div id="addFormContainer" class="form-container" style="display: none;">-->
-<!--        <form th:action="@{/garda/save}" method="post" id="gardaForm">-->
 
-<!--            <label for="id_garda">ID Garda</label>-->
-<!--            <input type="number" id="id_garda" name="id_garda" required>-->
 
-<!--            <label for="id_doc">ID Doctor</label>-->
-<!--            <input type="number" id="id_doc" name="id_doc" required>-->
 
-<!--            <label for="id_asistent">ID Asistent</label>-->
-<!--            <input type="number" id="id_asistent" name="id_asistent" required>-->
-
-<!--            <label for="pers_tip">Tip Personal</label>-->
-<!--            <input type="text" id="pers_tip" name="pers_tip" required>-->
-
-<!--            <label for="data_inceput">Data Început</label>-->
-<!--            <input type="date" id="data_inceput" name="data_inceput" required>-->
-
-<!--            <label for="data_sfarsit">Data Sfârșit</label>-->
-<!--            <input type="date" id="data_sfarsit" name="data_sfarsit" required>-->
-
-<!--            <label for="nr_pacienti_ingrijiti">Număr Pacienți Îngrijiți</label>-->
-<!--            <input type="number" id="nr_pacienti_ingrijiti" name="nr_pacienti_ingrijiti" required>-->
-
-<!--            <label for="consumabile_folosite">Consumabile Folosite</label>-->
-<!--            <input type="text" id="consumabile_folosite" name="consumabile_folosite" required>-->
-
-<!--            <button type="submit" class="add-button">Salvează Garda</button>-->
-<!--            <button type="button" class="modify-button" id="cancelAddFormBtn">Anulează</button>-->
-<!--        </form>-->
-<!--    </div>-->
-
-    <a href="/garda/new" class="add-button">Adaugă Garda</a>
     <!-- Tabelul cu gărzi existente -->
     <div class="container">
         <table class="table">

@@ -145,6 +145,8 @@ public class PacientiServiceImpl implements PacientiService {
                 .collect(Collectors.toList());
     }
 
+
+
     private PacientiDto mapToPacientiDto(Pacienti pacient) {
         PacientiDto pacientDto = new PacientiDto();
         pacientDto.setIdPacient(pacient.getIdPacient());
@@ -160,20 +162,35 @@ public class PacientiServiceImpl implements PacientiService {
         return pacientDto;
     }
 
-    @Override
-    public List<PacientiDto> filterPacienti(String gen, String rh, String grupaSange) {
-        List<Pacienti> pacienti = pacientiRepository.findAll();  // Poți să adaugi aici un query personalizat pentru performanță
+    public List<Pacienti> filterPacienti(String search, String gen, String rh, String grupaSange) {
+        List<Pacienti> pacienti = pacientiRepository.findAll();  // Poți obține toți pacienții din baza de date
 
-        return pacienti.stream()
-                .filter(pacient -> {
-                    boolean matchesGen = (gen == null || gen.isEmpty() || pacient.getGen().equalsIgnoreCase(gen));
-                    boolean matchesRh = (rh == null || rh.isEmpty() || pacient.getRh().equalsIgnoreCase(rh));
-                    boolean matchesGrupaSange = (grupaSange == null || grupaSange.isEmpty() || pacient.getGrupaSange().equalsIgnoreCase(grupaSange));
+        if (search != null && !search.isEmpty()) {
+            pacienti = pacienti.stream()
+                    .filter(p -> p.getNume().contains(search) || p.getPrenume().contains(search))
+                    .collect(Collectors.toList());
+        }
 
-                    return matchesGen && matchesRh && matchesGrupaSange;
-                })
-                .map(this::mapToPacientiDto)
-                .collect(Collectors.toList());
+        if (gen != null && !gen.isEmpty()) {
+            pacienti = pacienti.stream()
+                    .filter(p -> p.getGen().equals(gen))
+                    .collect(Collectors.toList());
+        }
+
+        if (rh != null && !rh.isEmpty()) {
+            pacienti = pacienti.stream()
+                    .filter(p -> p.getRh().equals(rh))
+                    .collect(Collectors.toList());
+        }
+
+        if (grupaSange != null && !grupaSange.isEmpty()) {
+            pacienti = pacienti.stream()
+                    .filter(p -> p.getGrupaSange().equals(grupaSange))
+                    .collect(Collectors.toList());
+        }
+
+        return pacienti;
     }
+
 
 }

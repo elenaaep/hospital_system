@@ -14,9 +14,6 @@ public class MesajDTO {
     private String mesaj;
     private LocalDateTime dataMesaj;
 
-
-
-
     // Constructori
     public MesajDTO() {
         // Constructor fără parametri
