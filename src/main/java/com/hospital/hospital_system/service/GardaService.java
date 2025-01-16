@@ -7,6 +7,7 @@ import com.hospital.hospital_system.repository.GardaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -26,4 +27,8 @@ public interface GardaService {
     List<GardaDto> searchGarda(String searchTerm, int idDoc, int idAsistent, String persTip);
 
     void saveGarda(Garda garda);
+
+    List<Garda> getAllGarde();
+
+    List<Garda> getGardeByDateRange(LocalDate startDate, LocalDate endDate);
 }

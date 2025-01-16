@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -191,4 +193,19 @@ public class GardaController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdfBytes);
     }
+
+    @GetMapping("/garde")
+    public String raportGarde(@RequestParam(name = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                              @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                              Model model) {
+        List<Garda> gardaList;
+        if (startDate != null && endDate != null) {
+            gardaList = gardaService.getGardeByDateRange(startDate, endDate); // Preia gărzi pe perioada dată
+        } else {
+            gardaList = gardaService.getAllGarde();  // Preia toate gărziile
+        }
+        model.addAttribute("gardaList", gardaList);
+        return "garda";  // Răspunde cu view-ul garda.html
+    }
+
 }

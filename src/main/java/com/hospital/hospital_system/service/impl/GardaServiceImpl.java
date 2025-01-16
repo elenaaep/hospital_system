@@ -7,6 +7,7 @@ import com.hospital.hospital_system.service.GardaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -150,6 +151,16 @@ public class GardaServiceImpl implements GardaService {
             // Permite salvarea dacă unul dintre ID-uri este null
             gardaRepository.save(garda);
         }
+    }
+
+    // Metodă pentru a prelua gărzi într-o perioadă specifică
+    public List<Garda> getGardeByDateRange(LocalDate startDate, LocalDate endDate) {
+        return gardaRepository.findByDataInceputBetween(startDate, endDate);
+    }
+
+    // Metodă pentru a prelua toate gărziile
+    public List<Garda> getAllGarde() {
+        return gardaRepository.findAll();
     }
 
 }
